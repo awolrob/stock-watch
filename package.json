@@ -5,13 +5,16 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "concurrently": "^6.3.0"
+    "concurrently": "^6.3.0",
+    "if-env": "^1.0.4"
   },
   "scripts": {
-    "start": "node server/server.js",
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:prod": "cd server && npm start",
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
     "install": "cd server && npm i && cd ../client && npm i",
-    "seed": "cd server && npm run seed"
+    "seed": "cd server && npm run seed",
+    "build": "cd client && npm run build"
   },
     "keywords": [],
   "author": "",
