@@ -79,7 +79,7 @@ const Savedstocks = () => {
         <h2>
           {userData.savedstocks.length
             ? ``
-            : 'You have no saved stocks!'}
+            : 'Search Stocks - Create A Watch List'}
         </h2>
         <CardColumns>
           {userData.savedstocks.map((stock) => {
@@ -87,8 +87,8 @@ const Savedstocks = () => {
               <Card key={stock.stockId} border='dark'>
                 <Card.Body>
                   <Card.Title>{stock.title} <br/> Ticker: {stock.stockId} <span>
-                  <p className='small'>{stock.authors}</p></span></Card.Title>
-                  <Card.Text> Watch Started: <br/>{dateFormat(stock.image)} </Card.Text>
+                  <p className='small'>{stock.types}</p></span></Card.Title>
+                  <Card.Text> Watch Started: <br/>{dateFormat(stock.startWatchDt)} </Card.Text>
                   <Chart />
                   <Button className='btn-block btn-danger' onClick={() => handleDeletestock(stock.stockId)}>
                     Remove

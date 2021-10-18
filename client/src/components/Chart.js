@@ -1,10 +1,7 @@
 import React from 'react';
-import { Image, Container, Col, Row } from 'react-bootstrap'
-const chartHolder = '/graph.png';
-
+import { Image, Col } from 'react-bootstrap'
 
 const Chart = () => {
-
 
     return (
         <>

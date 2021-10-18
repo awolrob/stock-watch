@@ -10,7 +10,7 @@
 
 4. Deploy the application to Heroku using a MongoDB database hosted at MongoDB Atlas.
 
-5. Create a working API which will pull the previous day's closing prices for every stock in every user's wish list in the system ( server side 8AM automated routine? )
+5. Create a working API which will pull the previous day's closing prices for every stock in every user's watch list in the system ( server side 8AM automated routine? )
    `https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers?apiKey=*` tickers? = A comma separated list of tickers to get snapshots for.
  
 6. Allow users to sign up and create a stock watch list
@@ -20,7 +20,7 @@
 ```md
 AS someone looking to invest for retirement with an interest in purchasing stock directly
 I WANT to search for stocks and place them in a watch list recording the date added and previous day's closing price
-SO THAT I can keep a list of stocks I'm interested in purchasing and view how that stock's value has changed since it was added to my wish list.
+SO THAT I can keep a list of stocks I'm interested in purchasing and view how that stock's value has changed since it was added to my watch list.
 ```
 
 ## Phase 1 Appllication Functions:
@@ -57,42 +57,42 @@ THEN I the modal closes and I am logged in to the site
 WHEN I click on the Search for stock option
 THEN I am presented with an input field to search for stocks and a submit button
 
-WHEN I am not logged no search button is displayed and a message is displayed encouraging the visitor to create and account, to develop a stock wish list.
-THEN I am presented with NO search button and a message is displayed encouraging the visitor to create and account, to develop a stock wish list.
+WHEN I am not logged no search button is displayed and a message is displayed encouraging the visitor to create and account, to develop a stock watch list.
+THEN I am presented with NO search button and a message is displayed encouraging the visitor to create and account, to develop a stock watch list.
 
-### Wish list creation, stock search
+### watch list creation, stock search
 WHEN I am logged in to the site
 THEN the menu options change to Search for stocks, and Logout
 
 WHEN I am logged in to the site
-THEN the right 75% of the middle 50% of the screen lists my stock wish list as a scrolling set of cards. Or a message encouraging me to search for stocks to create my first wish list
+THEN the right 75% of the middle 50% of the screen lists my stock watch list as a scrolling set of cards. Or a message encouraging me to search for stocks to create my first watch list
 
 WHEN I am logged in and enter a stock search in the input field and click the submit button
-THEN I am presented with several search results, each featuring a stock's company name, and a button to save a selected stock my stock wish list
+THEN I am presented with several search results, each featuring a stock's company name, and a button to save a selected stock my stock watch list
 <!-- www.alphavantage.co www.alphavantage.co The Search Endpoint returns the best-matching symbols and market information based on keywords of your choice -->
 <!-- https://rapidapi.com/blog/axios-react-api-tutorial/ -->
 
 WHEN I click on the Save button on a listed stock in my search
-THEN that stock's information is saved to my stock wish list and added to my displayed wish list cards
+THEN that stock's information is saved to my stock watch list and added to my displayed watch list cards
 
 `If the stock DOES NOT exists in the db then that stock is added so future access to that stock's data is local`
 
-WHEN I click on the Remove button of a stock in my wish list card
-THEN that stock is deleted from my stock wish list, removed from the displayed stock wish list
+WHEN I click on the Remove button of a stock in my watch list card
+THEN that stock is deleted from my stock watch list, removed from the displayed stock watch list
 
 WHEN I click on the Logout button
 THEN I am logged out of the site and presented with a menu with the option to Login/Signup
 ```
 
-### Wish list card display and function
+### watch list card display and function
 ```md
 WHEN I am logged in to the site
-THEN each stock in my wish list is displayed as a card containing:
+THEN each stock in my watch list is displayed as a card containing:
 * Stock Ticker, 
 * Company Name, 
 * Previous Day's Closing Value,
-* Date Added to my wish list, 
-* Value of the Stock on the date added to my wish list and a, 
+* Date Added to my watch list, 
+* Value of the Stock on the date added to my watch list and a, 
 * graph of the stock's daily closing value up to the previous day's closing value
 ```
 ## Mock-Up
@@ -222,12 +222,12 @@ Eddie is working on this part
 
 	* `ADD_USER` will execute the `addUser` mutation.
 
-	* `SAVE_TICKER` will execute the `` mutation.  (add a ticker to a user's wishList)
+	* `SAVE_TICKER` will execute the `` mutation.  (add a ticker to a user's watchList)
 
-	* `REMOVE_TICKER` will execute the `` mutation. (remove a ticker to a user's wishList)
+	* `REMOVE_TICKER` will execute the `` mutation. (remove a ticker to a user's watchList)
 
 * `server side scheduled
-	* `REMOVE_TICKER` will execute the `` mutation. (remove a ticker to a user's wishList)
+	* `REMOVE_TICKER` will execute the `` mutation. (remove a ticker to a user's watchList)
 
 ## Review
 
@@ -243,7 +243,7 @@ You are required to submit BOTH of the following for review:
 ## Phase 2 - Make it SOCIAL!
 
 add the ME (user profile page)
-add the reactions to people's wishlist (after the stock cards) and stock picks (in each card below the shart)
+add the reactions to people's watchlist (after the stock cards) and stock picks (in each card below the shart)
 
 add a link on the stock card to the customer's web site
 

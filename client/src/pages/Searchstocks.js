@@ -39,10 +39,10 @@ const Searchstocks = () => {
       console.log(bestMatches)
       const stockData = bestMatches.map((stock) => ({
         stockId: stock['1. symbol'],
-        authors: stock['3. type'] || ['No author to display'],
+        types: stock['3. type'] || ['No type to display'],
         title: stock['2. name'],
         description: stock['9. matchScore'],
-        image: '',
+        startWatchDt: '',
       }));
       console.log(stockData)
       setSearchedstocks(stockData);
@@ -66,7 +66,7 @@ const Searchstocks = () => {
 
     try {
       
-      stockToSave.image = Date()
+      stockToSave.startWatchDt = Date()
       // ;
 
       const response = await savestock(stockToSave, token);
@@ -123,7 +123,7 @@ const Searchstocks = () => {
                 Ticker: {stock.stockId} <br />
                 Name: {stock.title}<br />
                 Match Score: {stock.description}<br />
-                Type: {stock.authors}<br />
+                Type: {stock.types}<br />
                 {Auth.loggedIn() && (
                   <Button variant="primary" size="sm"
                     disabled={savedstockIds?.some((savedstockId) => savedstockId === stock.stockId)}
@@ -131,7 +131,7 @@ const Searchstocks = () => {
                     onClick={() => handleSavestock(stock.stockId)}>
                     {savedstockIds?.some((savedstockId) => savedstockId === stock.stockId)
                       ? 'You are Watching This Stock!'
-                      : 'Add Stock to Wish List!'}
+                      : 'Add Stock To Watch List!'}
                   </Button>
                 )}
 
@@ -143,12 +143,12 @@ const Searchstocks = () => {
           {searchedstocks.map((stock) => {
             return (
               <Card key={stock.stockId} border='dark'>
-                {stock.image ? (
-                  <Card.Img src={stock.image} alt={`The cover for ${stock.title}`} variant='top' />
+                {stock.startWatchDt ? (
+                  <Card.Img src={stock.startWatchDt} alt={`The cover for ${stock.title}`} variant='top' />
                 ) : null}
                 <Card.Body>
                   <Card.Title>{stock.title} Ticker: {stock.stockId}</Card.Title>
-                  <p className='small'>Authors: {stock.authors}</p>
+                  <p className='small'>types: {stock.types}</p>
                   <Card.Text>{stock.description}</Card.Text>
                   {Auth.loggedIn() && (
                     <Button

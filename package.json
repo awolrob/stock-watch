@@ -16,7 +16,7 @@
     "seed": "cd server && npm run seed",
     "build": "cd client && npm run build"
   },
-    "keywords": [],
+  "keywords": [],
   "author": "",
   "license": "ISC"
 }
