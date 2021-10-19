@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, ListGroup } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { savestock, searchStocks } from '../utils/API';
+import { savestock, searchStocksAPI, queryTickerCoData } from '../utils/API';
 import { savestockIds, getSavedstockIds } from '../utils/localStorage';
 
 const Searchstocks = () => {
@@ -29,22 +29,19 @@ const Searchstocks = () => {
     }
 
     try {
-      const response = await searchStocks(searchInput);
+      const response = await searchStocksAPI(searchInput);
 
       if (!response.ok) {
         throw new Error('something went wrong!');
       }
-      console.log(response)
       const { bestMatches } = await response.json();
-      console.log(bestMatches)
       const stockData = bestMatches.map((stock) => ({
         stockId: stock['1. symbol'],
-        types: stock['3. type'] || ['No type to display'],
-        title: stock['2. name'],
+        type: stock['3. type'] || ['No type to display'],
+        coName: stock['2. name'],
         description: stock['9. matchScore'],
         startWatchDt: '',
       }));
-      console.log(stockData)
       setSearchedstocks(stockData);
       setSearchInput('');
     } catch (err) {
@@ -65,21 +62,33 @@ const Searchstocks = () => {
     }
 
     try {
-      
+      //save date stock watch started
       stockToSave.startWatchDt = Date()
-      // ;
-
-      const response = await savestock(stockToSave, token);
-
-      if (!response.ok) {
-        throw new Error('something went wrong!');
+      //get additional data to save to stock model
+      //1 - closing history from alph advantage
+      //2 - company data, link, etc.
+      //3 - company logo maybe from api.polygon.io
+      const coResponse = await queryTickerCoData(stockId);
+      if (!coResponse.ok) {
+        throw new Error('No company data available for this ticker: ', stockId);
+      } else {
+        const coData = await coResponse.json();
+        stockToSave.url = coData.url
       }
-
-      // if stock successfully saves to user's account, save stock id to state
-      setSavedstockIds([...savedstockIds, stockToSave.stockId]);
+      console.log(coResponse)
     } catch (err) {
       console.error(err);
     }
+
+    const response = await savestock(stockToSave, token);
+
+    if (!response.ok) {
+      throw new Error('something went wrong!');
+    }
+
+    // if stock successfully saves to user's account, save stock id to state
+    setSavedstockIds([...savedstockIds, stockToSave.stockId]);
+
   };
 
   return (
@@ -114,16 +123,15 @@ const Searchstocks = () => {
           {searchedstocks.length
             ? `Viewing ${searchedstocks.length} results:`
             : 'Search for a stock to begin'}
-          {console.log(searchedstocks)}
         </h2>
         <ListGroup defaultActiveKey="#link1">
           {searchedstocks.map((stock) => {
             return (
-              <ListGroup.Item >
+              <ListGroup.Item key={stock.stockId}>
                 Ticker: {stock.stockId} <br />
-                Name: {stock.title}<br />
+                Name: {stock.coName}<br />
                 Match Score: {stock.description}<br />
-                Type: {stock.types}<br />
+                Type: {stock.type}<br />
                 {Auth.loggedIn() && (
                   <Button variant="primary" size="sm"
                     disabled={savedstockIds?.some((savedstockId) => savedstockId === stock.stockId)}
@@ -139,32 +147,6 @@ const Searchstocks = () => {
             )
           })}
         </ListGroup>
-        {/* <CardColumns>
-          {searchedstocks.map((stock) => {
-            return (
-              <Card key={stock.stockId} border='dark'>
-                {stock.startWatchDt ? (
-                  <Card.Img src={stock.startWatchDt} alt={`The cover for ${stock.title}`} variant='top' />
-                ) : null}
-                <Card.Body>
-                  <Card.Title>{stock.title} Ticker: {stock.stockId}</Card.Title>
-                  <p className='small'>types: {stock.types}</p>
-                  <Card.Text>{stock.description}</Card.Text>
-                  {Auth.loggedIn() && (
-                    <Button
-                      disabled={savedstockIds?.some((savedstockId) => savedstockId === stock.stockId)}
-                      className='btn-block btn-info'
-                      onClick={() => handleSavestock(stock.stockId)}>
-                      {savedstockIds?.some((savedstockId) => savedstockId === stock.stockId)
-                        ? 'This stock has already been saved!'
-                        : 'Save this stock!'}
-                    </Button>
-                  )}
-                </Card.Body>
-              </Card>
-            );
-          })}
-        </CardColumns> */}
       </Container>
     </>
   );

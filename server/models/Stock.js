@@ -19,10 +19,10 @@ const stockSchema = new Schema({
   startWatchDt: {
     type: Date,
   },
-  link: {
+  url: {
     type: String,
   },
-  title: {
+  coName: {
     type: String,
     required: true,
   },
