@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
 
-import { getMe, deleteBook } from '../utils/API';
+import { getMe, deletestock } from '../utils/API';
 import Auth from '../utils/auth';
-import { removeBookId } from '../utils/localStorage';
+import { removestockId } from '../utils/localStorage';
 import Chart from '../components/Chart';
 
 const dateFormat = require('../utils/dateFormat');
 
-const SavedBooks = () => {
+const Savedstocks = () => {
   const [userData, setUserData] = useState({});
 
   // use this to determine if `useEffect()` hook needs to run again
@@ -39,8 +39,8 @@ const SavedBooks = () => {
     getUserData();
   }, [userDataLength]);
 
-  // create function that accepts the book's mongo _id value as param and deletes the book from the database
-  const handleDeleteBook = async (bookId) => {
+  // create function that accepts the stock's mongo _id value as param and deletes the stock from the database
+  const handleDeletestock = async (stockId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
@@ -48,7 +48,7 @@ const SavedBooks = () => {
     }
 
     try {
-      const response = await deleteBook(bookId, token);
+      const response = await deletestock(stockId, token);
 
       if (!response.ok) {
         throw new Error('something went wrong!');
@@ -56,8 +56,8 @@ const SavedBooks = () => {
 
       const updatedUser = await response.json();
       setUserData(updatedUser);
-      // upon success, remove book's id from localStorage
-      removeBookId(bookId);
+      // upon success, remove stock's id from localStorage
+      removestockId(stockId);
     } catch (err) {
       console.error(err);
     }
@@ -77,20 +77,23 @@ const SavedBooks = () => {
       </Jumbotron>
       <Container>
         <h2>
-          {userData.savedBooks.length
+          {userData.savedstocks.length
             ? ``
-            : 'You have no saved books!'}
+            : 'Search Stocks - Create A Watch List'}
         </h2>
         <CardColumns>
-          {userData.savedBooks.map((book) => {
+          {userData.savedstocks.map((stock) => {
+            console.log(stock)
             return (
-              <Card key={book.bookId} border='dark'>
+              <Card key={stock.stockId} border='dark'>
                 <Card.Body>
-                  <Card.Title>{book.title} <br/> Ticker: {book.bookId} <span>
-                  <p className='small'>{book.authors}</p></span></Card.Title>
-                  <Card.Text> Watch Started: <br/>{dateFormat(book.image)} </Card.Text>
+                  <Card.Title>{stock.coName} <br /> Ticker: {stock.stockId} <br/>
+                    {stock.url && <a href={stock.url}>{stock.url}</a>}
+                    <p className='small'>{stock.types}</p>
+                  </Card.Title>
+                  <Card.Text> Watch Started: <br />{dateFormat(stock.startWatchDt)} </Card.Text>
                   <Chart />
-                  <Button className='btn-block btn-danger' onClick={() => handleDeleteBook(book.bookId)}>
+                  <Button className='btn-block btn-danger' onClick={() => handleDeletestock(stock.stockId)}>
                     Remove
                   </Button>
                 </Card.Body>
@@ -103,4 +106,4 @@ const SavedBooks = () => {
   );
 };
 
-export default SavedBooks;
+export default Savedstocks;
