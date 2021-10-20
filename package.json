@@ -8,8 +8,7 @@
     "react-scripts": "^4.0.3"
   },
   "devDependencies": {
-    "concurrently": "^6.3.0",
-    "if-env": "^1.0.4"
+    "concurrently": "^6.3.0"
   },
   "scripts": {
     "start": "node server/server.js",
