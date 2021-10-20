@@ -71,8 +71,8 @@ const Searchstocks = () => {
       console.error(err);
     }
 
-    //save date stock watch started
-    stockToSave.startWatchDt = Date()
+    //save date stock watch started 
+    stockToSave.startWatchDt = Date() 
 
     const closeDataResponse = await queryTickerClose(stockId);
     if (!closeDataResponse.ok) {
