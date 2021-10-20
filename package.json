@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "dotenv": "^10.0.0"
+  },
   "devDependencies": {
     "concurrently": "^6.3.0",
     "if-env": "^1.0.4"

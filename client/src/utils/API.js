@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 // route to get logged in user's info (needs the token)
 export const getMe = (token) => {
   return fetch('/api/users/me', {
@@ -53,16 +55,20 @@ export const deletestock = (stockId, token) => {
 // make a search to alphaavantage stocks symbol search api
 export const searchStocksAPI = (query) => {
   console.log('alphavantage  symbol search :',query)
-  const key = 'UMGBDC67JOA29WPN';
-  return fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${query}&apikey=${key}`);
+  // const key = 'UMGBDC67JOA29WPN';
+  console.log(process.env.ALPHAVANTAGE_API)
+  return fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${query}&apikey=${process.env.ALPHAVANTAGE_API}`);
+
 };
 
 // when a stock is added to a watch list - get the daily close history
 export const queryTickerClose = (query) => {
   console.log('alphavantage  time series daily :',query)
   //This API returns raw (as-traded) daily time series (date, daily open, daily high, daily low, daily close, daily volume) of the global equity specified, covering 20+ years of historical data. If you are also interested in split/dividend-adjusted historical data, please use the Daily Adjusted API, which covers adjusted close values and historical split and dividend events.
-  const keyAlpha = 'UMGBDC67JOA29WPN';
-  return fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${query}&outputsize=full&apikey=${keyAlpha}`)
+  // const keyAlpha = 'UMGBDC67JOA29WPN';
+  console.log(process.env.ALPHAVANTAGE_API)
+  // return fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${query}&outputsize=full&apikey=${process.env.ALPHAVANTAGE_API}`)
+  return fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${query}&apikey=${process.env.ALPHAVANTAGE_API}`)
 };
 
 // when a stock is added to a watch list - get the Company Overview data
@@ -70,5 +76,7 @@ export const queryTickerCoData = (query) => {
   console.log('polygon company data: ',query)
   //Get details for a ticker symbol's company/entity. This provides a general overview of the entity with information such as name, sector, exchange, logo and similar companies
   const keyPolygon = 'YPZ_yboZhWMylCwmZaeWE1Pp9gjQGpUv';
-    return fetch(`https://api.polygon.io/v1/meta/symbols/${query}/company?apiKey=${keyPolygon}`)
+  return fetch(`https://api.polygon.io/v1/meta/symbols/${query}/company?apiKey=${keyPolygon}`)
+  // console.log(process.env.POLYGON_API)
+    // return fetch(`https://api.polygon.io/v1/meta/symbols/${query}/company?apiKey=${process.env.POLYGON_API}`)
 };

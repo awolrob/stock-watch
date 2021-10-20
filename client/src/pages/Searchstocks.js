@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, ListGroup } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { savestock, searchStocksAPI, queryTickerCoData } from '../utils/API';
+import { savestock, searchStocksAPI, queryTickerCoData, queryTickerClose } from '../utils/API';
 import { savestockIds, getSavedstockIds } from '../utils/localStorage';
 
 const Searchstocks = () => {
@@ -75,7 +75,22 @@ const Searchstocks = () => {
         const coData = await coResponse.json();
         stockToSave.url = coData.url
       }
-      console.log(coResponse)
+      // console.log(coResponse)
+      //get closing data from API alphavantage
+      const closeDataResponse = await queryTickerClose(stockId);
+      if (!closeDataResponse.ok) {
+        throw new Error('No company closing data available for this ticker: ', stockId);
+      } else {
+        const closeDataJSON = await closeDataResponse.json();
+        const dates = Object.keys(closeDataJSON['Time Series (Daily)']).reverse()
+        // console.log(dates)
+        // Construct response data for chart input
+        const closePrices = dates.map(date => date = {
+          date,
+          close: Number(closeDataJSON['Time Series (Daily)'][date]['4. close'])
+        })
+        console.log(closePrices)
+      }
     } catch (err) {
       console.error(err);
     }
