@@ -79,5 +79,5 @@ export const queryTickerCoData = (query) => {
   // const keyPolygon = process.env.REACT_APP_POLYGON_API;
   // return fetch(`https://api.polygon.io/v1/meta/symbols/${query}/company?apiKey=${process.env.REACT_APP_POLYGON_API}`)
   // console.log(process.env.POLYGON_API)
-    return fetch(`https://api.polygon.io/v1/meta/symbols/${query}/company?apiKey=${keyPolygon}`)
+    return fetch(`https://api.polygon.io/v1/meta/symbols/${query}/company?apiKey=${process.env.REACT_APP_POLYGON_API}`)
 };
