@@ -62,37 +62,39 @@ const Searchstocks = () => {
     }
 
     try {
-      //save date stock watch started
-      stockToSave.startWatchDt = Date()
       //get additional data to save to stock model
       //1 - closing history from alph advantage
       //2 - company data, link, etc.
       //3 - company logo maybe from api.polygon.io
-      const coResponse = await queryTickerCoData(stockId);
-      if (!coResponse.ok) {
-        throw new Error('No company data available for this ticker: ', stockId);
-      } else {
-        const coData = await coResponse.json();
-        stockToSave.url = coData.url
-      }
-      // console.log(coResponse)
-      //get closing data from API alphavantage
-      const closeDataResponse = await queryTickerClose(stockId);
-      if (!closeDataResponse.ok) {
-        throw new Error('No company closing data available for this ticker: ', stockId);
-      } else {
-        const closeDataJSON = await closeDataResponse.json();
-        const dates = Object.keys(closeDataJSON['Time Series (Daily)']).reverse()
-        // console.log(dates)
-        // Construct response data for chart input
-        const closePrices = dates.map(date => date = {
-          date,
-          close: Number(closeDataJSON['Time Series (Daily)'][date]['4. close'])
-        })
-        console.log(closePrices)
-      }
+
     } catch (err) {
       console.error(err);
+    }
+
+    //save date stock watch started
+    stockToSave.startWatchDt = Date()
+
+    const closeDataResponse = await queryTickerClose(stockId);
+    if (!closeDataResponse.ok) {
+      throw new Error('No company closing data available for this ticker: ', stockId);
+    } else {
+      const closeDataJSON = await closeDataResponse.json();
+      const dates = Object.keys(closeDataJSON['Time Series (Daily)']).reverse()
+      // console.log(dates)
+      // Construct response data for chart input
+      const closePrices = dates.map(date => date = {
+        date,
+        close: Number(closeDataJSON['Time Series (Daily)'][date]['4. close'])
+      })
+      console.log(closePrices)
+    }
+
+    const coResponse = await queryTickerCoData(stockId);
+    if (!coResponse.ok) {
+      throw new Error('No company data available for this ticker: ', stockId);
+    } else {
+      const coData = await coResponse.json();
+      stockToSave.url = coData.url
     }
 
     const response = await savestock(stockToSave, token);
