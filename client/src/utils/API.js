@@ -75,9 +75,10 @@ export const queryTickerClose = (query) => {
 export const queryTickerCoData = (query) => {
   console.log('polygon company data: ',query)
   //Get details for a ticker symbol's company/entity. This provides a general overview of the entity with information such as name, sector, exchange, logo and similar companies
-  const keyPolygon = 'YPZ_yboZhWMylCwmZaeWE1Pp9gjQGpUv';
+  
   // const keyPolygon = process.env.REACT_APP_POLYGON_API;
   // return fetch(`https://api.polygon.io/v1/meta/symbols/${query}/company?apiKey=${process.env.REACT_APP_POLYGON_API}`)
-  // console.log(process.env.POLYGON_API)
-    return fetch(`https://api.polygon.io/v1/meta/symbols/${query}/company?apiKey=${process.env.REACT_APP_POLYGON_API}`)
+  
+  const keyPolygon = 'YPZ_yboZhWMylCwmZaeWE1Pp9gjQGpUv';
+  return fetch(`https://api.polygon.io/v1/meta/symbols/${query}/company?apiKey=${keyPolygon}`)
 };

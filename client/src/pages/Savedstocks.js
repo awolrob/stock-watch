@@ -88,11 +88,17 @@ const Savedstocks = () => {
               <Card key={stock.stockId} border='dark'>
                 <Card.Body>
                   <Card.Title>{stock.coName} <br /> Ticker: {stock.stockId} <br/>
-                    {stock.url && <a href={stock.url}>{stock.url}</a>}
-                    <p className='small'>{stock.types}</p>
+                    {stock.url && <a href={stock.url}>{stock.url}</a>}<br/>
+                    <img src={stock.logo} border="0" alt={stock.coName} width="76" height="57" />
+                    <p className='small'>{stock.type}</p>
+                    <p className='small'>{stock.description}</p>
+                    <p>Head Quarter Address: <br/><span  className='small'>{stock.hq_address} {stock.hq_country}</span></p>
                   </Card.Title>
-                  <Card.Text> Watch Started: <br />{dateFormat(stock.startWatchDt)} </Card.Text>
-                  <Chart />
+                  <Card.Text> Watch Started: {dateFormat(stock.startWatchDt)} <br/>
+                   Last Close: <br/>
+                   {dateFormat(stock.closePrices[stock.closePrices.length-1].date)} @ USD${stock.closePrices[stock.closePrices.length-1].close}  <br/>
+                   </Card.Text>
+                  <Chart closePrices={stock.closePrices} />
                   <Button className='btn-block btn-danger' onClick={() => handleDeletestock(stock.stockId)}>
                     Remove
                   </Button>
