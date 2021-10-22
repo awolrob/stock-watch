@@ -2,8 +2,11 @@
   "name": "Develop",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "dependencies": {},
+  "main": "server/server.js",
+  "dependencies": {
+    "apollo-server-express": "^3.4.0",
+    "graphql": "^15.6.1"
+  },
   "devDependencies": {
     "concurrently": "^6.3.0",
     "if-env": "^1.0.4"
