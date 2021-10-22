@@ -68,7 +68,7 @@ export const queryTickerClose = (query) => {
   // const keyAlpha = 'UMGBDC67JOA29WPN';
   // console.log(process.env.ALPHAVANTAGE_API)
   // return fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${query}&outputsize=full&apikey=${process.env.ALPHAVANTAGE_API}`)
-  return fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${query}&apikey=${process.env.REACT_APP_ALPHAVANTAGE_API}`)
+  return fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${query}&outputsize=full&apikey=${process.env.REACT_APP_ALPHAVANTAGE_API}`)
 };
 
 // when a stock is added to a watch list - get the Company Overview data

@@ -65,6 +65,7 @@ const Searchstocks = () => {
       stockToSave.startWatchDt = Date()
 
       const closeDataResponse = await queryTickerClose(stockId);
+      
       if (!closeDataResponse.ok) {
         // ;
       } else {
