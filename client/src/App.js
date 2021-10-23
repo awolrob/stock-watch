@@ -45,49 +45,39 @@ function App() {
       >
         <div className="logo" />
         <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-          <Menu.Item
-            key="1"
-            icon={<UserOutlined />}
-            onClick={() => {
+          {/* main page */}
+          <Menu.Item key="1" icon={<BarChartOutlined />} onClick={() => {
               setActivePage("Searchstocks");
             }}
           >
             Search for Stocks
           </Menu.Item>
+            {/* logged in */}
           {Auth.loggedIn() ? (
             <>
-              <Menu.Item
-                key="4"
-                icon={<BarChartOutlined />}
-                onClick={() => {
+              <Menu.Item key="4" icon={<BarChartOutlined />} onClick={() => {
                   setActivePage("Savedstocks");
                 }}
               >
                 Your Stocks
               </Menu.Item>
-              <Menu.Item
-                key="5"
-                icon={<UploadOutlined />}
-                onClick={Auth.logout}
+
+              <Menu.Item key="5" icon={<UserOutlined />} onClick={Auth.logout}
               >
                 Logout
               </Menu.Item>
             </>
           ) : (
+            // logged out
             <>
-              <Menu.Item
-                key="2"
-                icon={<VideoCameraOutlined />}
-                onClick={() => {
+              <Menu.Item key="2" icon={<UserOutlined />} onClick={() => {
                   setActivePage("SignupForm");
                 }}
               >
                 Sign Up
               </Menu.Item>
-              <Menu.Item
-                key="3"
-                icon={<UploadOutlined />}
-                onClick={() => {
+
+              <Menu.Item key="3" icon={<UserOutlined />} onClick={() => {
                   setActivePage("LoginForm");
                 }}
               >
