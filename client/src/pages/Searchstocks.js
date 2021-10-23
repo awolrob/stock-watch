@@ -55,61 +55,59 @@ const Searchstocks = () => {
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-
     if (!token) {
       return false;
     }
 
-    try {
-      //save date stock watch started 
-      stockToSave.startWatchDt = Date()
+    const closeDataResponse = await queryTickerClose(stockId);
+    const coResponse = await queryTickerCoData(stockId);
 
-      const closeDataResponse = await queryTickerClose(stockId);
-      
-      if (!closeDataResponse.ok) {
-        // ;
-      } else {
-        const closeDataJSON = await closeDataResponse.json();
-        const dates = Object.keys(closeDataJSON['Time Series (Daily)']).reverse()
-        // Construct response data for chart input
-        const closePrices = dates.map(date => date = {
-          date,
-          close: Number(closeDataJSON['Time Series (Daily)'][date]['4. close'])
-        })
-        stockToSave.closePrices = closePrices;
-      }
-    } catch (err) {
-      console.error(err);
-    };
+    /* ******************
+    TEST CODE - REMOVE TEST DATE - used to get data to display graph since date watch started
+       ********************* */
+    // stockToSave.startWatchDt = new Date();
+    const d = new Date();
+    stockToSave.startWatchDt = d.toLocaleDateString(d.setDate(d.getDate() - 21));
+    /* ******************
+    TEST CODE - REMOVE TEST DATE  
+       ********************* */
+    //save date stock watch started 
+    // const closeDataResponse = await queryTickerClose(stockId);
 
-    try {
-      const coResponse = await queryTickerCoData(stockId);
-      if (!coResponse.ok) {
-        // ;
-      } else {
-        const coData = await coResponse.json();
-        stockToSave.url = coData.url;
-        stockToSave.logo = coData.logo;
-        stockToSave.description = coData.description;
-        stockToSave.hq_address = coData.hq_address;
-        stockToSave.hq_state = coData.hq_state;
-        stockToSave.hq_country = coData.hq_country;
-      }
+    if (closeDataResponse.ok) {
+      const closeDataJSON = await closeDataResponse.json();
 
-      const response = await savestock(stockToSave, token);
+      const dates = Object.keys(closeDataJSON['Time Series (Daily)']).reverse();
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
-      // if stock successfully saves to user's account, save stock id to state
-      setSavedstockIds([...savedstockIds, stockToSave.stockId]);
-
-    } catch (err) {
-      console.error(err);
+      // Construct data for chart input
+      const closePrices = dates.map(date => date = {
+        date,
+        close: Number(closeDataJSON['Time Series (Daily)'][date]['4. close'])
+      })
+      stockToSave.closePrices = closePrices;
     }
 
+    if (coResponse.ok) {
+      const coData = await coResponse.json();
+      stockToSave.url = coData.url;
+      stockToSave.logo = coData.logo;
+      stockToSave.description = coData.description;
+      stockToSave.hq_address = coData.hq_address;
+      stockToSave.hq_state = coData.hq_state;
+      stockToSave.hq_country = coData.hq_country;
+    }
+
+    const response = await savestock(stockToSave, token);
+
+    if (!response.ok) {
+      throw new Error('something went wrong!');
+    }
+
+    // if stock successfully saves to user's account, save stock id to state
+    setSavedstockIds([...savedstockIds, stockToSave.stockId]);
+
   };
+  const [disable, setDisable] = useState(false);
 
   return (
     <>
@@ -152,16 +150,23 @@ const Searchstocks = () => {
                 Name: {stock.coName}<br />
                 Type: {stock.type}<br />
                 {Auth.loggedIn() && (
-                  <Button variant="primary" size="sm"
-                    disabled={savedstockIds?.some((savedstockId) => savedstockId === stock.stockId)}
+                  // <Button variant="primary" size="sm"
+                  <Button
+                    variant="primary" size="sm"
+                    disabled={disable} 
                     // className='btn-block btn-info'
-                    onClick={() => handleSavestock(stock.stockId)}>
+                    onClick={() => {
+                      // this.setDisable(true)
+                      handleSavestock(stock.stockId)
+                    }}
+                  // disabled={savedstockIds?.some((savedstockId) => savedstockId === stock.stockId)}
+                  // onClick={() => handleSavestock(stock.stockId)}
+                  >
                     {savedstockIds?.some((savedstockId) => savedstockId === stock.stockId)
                       ? 'You are Watching This Stock!'
                       : 'Add Stock To Watch List!'}
                   </Button>
                 )}
-
               </ListGroup.Item>
             )
           })}
