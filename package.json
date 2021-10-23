@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "antd": "^4.16.13"
+  },
   "devDependencies": {
     "concurrently": "^6.3.0",
     "if-env": "^1.0.4"
