@@ -4,6 +4,7 @@ import Searchstocks from "./pages/Searchstocks";
 import Savedstocks from "./pages/Savedstocks";
 import LoginForm from "./components/LoginForm";
 import SignUpForm from "./components/SignupForm";
+import PageHeader from "./components/PageHeader";
 import Auth from "./utils/auth";
 import { Layout, Menu } from "antd";
 import {
@@ -66,6 +67,10 @@ function App() {
               >
                 Logout
               </Menu.Item>
+              <Menu.Item key="6" icon={<BarChartOutlined />}>
+                Placeholder
+               </Menu.Item> 
+
             </>
           ) : (
             // logged out
@@ -88,7 +93,10 @@ function App() {
         </Menu>
       </Sider>
       <Layout className="site-layout" style={{ marginLeft: 200 }}>
-        <Header className="site-layout-background" style={{ padding: 0 }} />
+        <Header className="site-layout-background" style={{ padding: 0, textAlign: "center" }}>
+          <PageHeader/>
+
+        </Header>
         <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
           <div
             className="site-layout-background"
