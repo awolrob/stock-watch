@@ -31,6 +31,7 @@ const Savedstocks = () => {
 
         const user = await response.json();
         setUserData(user);
+        console.log(user)
       } catch (err) {
         console.error(err);
       }
@@ -67,8 +68,9 @@ const Savedstocks = () => {
   if (!userDataLength) {
     return <h2>LOADING...</h2>;
   }
-
+  console.log(userData.savedstocks)
   return (
+
     <>
       <Jumbotron fluid className='text-light bg-dark'>
         <Container>
@@ -83,16 +85,29 @@ const Savedstocks = () => {
         </h2>
         <CardColumns>
           {userData.savedstocks.map((stock) => {
-            console.log(stock)
+
             return (
-              <Card key={stock.stockId} border='dark'>
+              <Card key={Math.random(Date.now())} border='dark'>
                 <Card.Body>
-                  <Card.Title>{stock.coName} <br /> Ticker: {stock.stockId} <br/>
-                    {stock.url && <a href={stock.url}>{stock.url}</a>}
-                    <p className='small'>{stock.types}</p>
+                  <Card.Title>{stock.coName} <br /> Ticker: {stock.stockId} <br />
+                    {stock.url && <a href={stock.url}>{stock.url}</a>}<br />
+                    <img src={stock.logo} border="0" alt={stock.coName} width="76" height="57" />
+                    <p className='small'>{stock.type}</p>
+                    {/* <p className='small'>{stock.description}</p> */}
+                    <p>Head Quarter Address: <br /><span className='small'>{stock.hq_address} {stock.hq_country}</span></p>
                   </Card.Title>
-                  <Card.Text> Watch Started: <br />{dateFormat(stock.startWatchDt)} </Card.Text>
-                  <Chart />
+                  <Card.Text> Watch Started: {dateFormat(stock.startWatchDt)} <br />
+                    Last Close: <br />
+                    {stock.closePrices.length && (
+                      `${dateFormat(stock.closePrices[stock.closePrices.length - 1].date)} @ USD$${stock.closePrices[stock.closePrices.length - 1].close}`)}
+                    <br />
+                  </Card.Text>
+                  <p className='small'>Price History Since Your Watch Started </p>
+                  <Chart closePrices={stock.closePrices} startWatchDt={stock.startWatchDt} fill="#82ca9d" />
+                  <br />
+                  <p className='small'>All Price History</p>
+                  <Chart closePrices={stock.closePrices} startWatchDt={0} fill="#8884d8" />
+                  <br />
                   <Button className='btn-block btn-danger' onClick={() => handleDeletestock(stock.stockId)}>
                     Remove
                   </Button>

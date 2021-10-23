@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, ListGroup } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { savestock, searchStocksAPI, queryTickerCoData } from '../utils/API';
+import { savestock, searchStocksAPI, queryTickerCoData, queryTickerClose } from '../utils/API';
 import { savestockIds, getSavedstockIds } from '../utils/localStorage';
 
 const Searchstocks = () => {
@@ -39,7 +39,6 @@ const Searchstocks = () => {
         stockId: stock['1. symbol'],
         type: stock['3. type'] || ['No type to display'],
         coName: stock['2. name'],
-        description: stock['9. matchScore'],
         startWatchDt: '',
       }));
       setSearchedstocks(stockData);
@@ -56,28 +55,46 @@ const Searchstocks = () => {
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-
     if (!token) {
       return false;
     }
 
-    try {
-      //save date stock watch started
-      stockToSave.startWatchDt = Date()
-      //get additional data to save to stock model
-      //1 - closing history from alph advantage
-      //2 - company data, link, etc.
-      //3 - company logo maybe from api.polygon.io
-      const coResponse = await queryTickerCoData(stockId);
-      if (!coResponse.ok) {
-        throw new Error('No company data available for this ticker: ', stockId);
-      } else {
-        const coData = await coResponse.json();
-        stockToSave.url = coData.url
-      }
-      console.log(coResponse)
-    } catch (err) {
-      console.error(err);
+    const closeDataResponse = await queryTickerClose(stockId);
+    const coResponse = await queryTickerCoData(stockId);
+
+    /* ******************
+    TEST CODE - REMOVE TEST DATE - used to get data to display graph since date watch started
+       ********************* */
+    // stockToSave.startWatchDt = new Date();
+    const d = new Date();
+    stockToSave.startWatchDt = d.toLocaleDateString(d.setDate(d.getDate() - 21));
+    /* ******************
+    TEST CODE - REMOVE TEST DATE  
+       ********************* */
+    //save date stock watch started 
+    // const closeDataResponse = await queryTickerClose(stockId);
+
+    if (closeDataResponse.ok) {
+      const closeDataJSON = await closeDataResponse.json();
+
+      const dates = Object.keys(closeDataJSON['Time Series (Daily)']).reverse();
+
+      // Construct data for chart input
+      const closePrices = dates.map(date => date = {
+        date,
+        close: Number(closeDataJSON['Time Series (Daily)'][date]['4. close'])
+      })
+      stockToSave.closePrices = closePrices;
+    }
+
+    if (coResponse.ok) {
+      const coData = await coResponse.json();
+      stockToSave.url = coData.url;
+      stockToSave.logo = coData.logo;
+      stockToSave.description = coData.description;
+      stockToSave.hq_address = coData.hq_address;
+      stockToSave.hq_state = coData.hq_state;
+      stockToSave.hq_country = coData.hq_country;
     }
 
     const response = await savestock(stockToSave, token);
@@ -90,6 +107,7 @@ const Searchstocks = () => {
     setSavedstockIds([...savedstockIds, stockToSave.stockId]);
 
   };
+  const [disable, setDisable] = useState(false);
 
   return (
     <>
@@ -130,19 +148,25 @@ const Searchstocks = () => {
               <ListGroup.Item key={stock.stockId}>
                 Ticker: {stock.stockId} <br />
                 Name: {stock.coName}<br />
-                Match Score: {stock.description}<br />
                 Type: {stock.type}<br />
                 {Auth.loggedIn() && (
-                  <Button variant="primary" size="sm"
-                    disabled={savedstockIds?.some((savedstockId) => savedstockId === stock.stockId)}
+                  // <Button variant="primary" size="sm"
+                  <Button
+                    variant="primary" size="sm"
+                    disabled={disable} 
                     // className='btn-block btn-info'
-                    onClick={() => handleSavestock(stock.stockId)}>
+                    onClick={() => {
+                      // this.setDisable(true)
+                      handleSavestock(stock.stockId)
+                    }}
+                  // disabled={savedstockIds?.some((savedstockId) => savedstockId === stock.stockId)}
+                  // onClick={() => handleSavestock(stock.stockId)}
+                  >
                     {savedstockIds?.some((savedstockId) => savedstockId === stock.stockId)
                       ? 'You are Watching This Stock!'
                       : 'Add Stock To Watch List!'}
                   </Button>
                 )}
-
               </ListGroup.Item>
             )
           })}

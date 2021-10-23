@@ -1,15 +1,17 @@
 {
-  "name": "Develop",
-  "version": "1.0.0",
+  "name": "Stock_Watch",
+  "version": "1.0.0", 
   "description": "",
-  "main": "index.js",
-  "dependencies": {},
+  "main": "server/server.js",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "react-scripts": "^4.0.3"
+  },
   "devDependencies": {
-    "concurrently": "^6.3.0",
-    "if-env": "^1.0.4"
+    "concurrently": "^6.3.0"
   },
   "scripts": {
-    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start": "node server/server.js",
     "start:prod": "cd server && npm start",
     "start:dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
     "install": "cd server && npm i && cd ../client && npm i",
