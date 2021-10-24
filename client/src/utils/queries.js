@@ -7,17 +7,17 @@ export const QUERY_ME = gql`
       username
       email
       savedStocks {
-        stockId: String
-        coName: String
-        type: String
-        description: String
-        startWatchDt: String
-        url: String 
-        logo: String  
-        hq_address: String
-        hq_state: String
-        hq_country: String
-        closePrices: [String]
+        stockId
+        coName
+        type
+        description
+        startWatchDt
+        url
+        logo
+        hq_address
+        hq_state
+        hq_country
+        closePrices
       }
     }
   }

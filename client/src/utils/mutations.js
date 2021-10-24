@@ -26,26 +26,26 @@ export const ADD_USER = gql`
 `;
 
 export const SAVE_STOCK = gql`
-mutation saveStock($stock: SavedStockInput!) {
-    saveStock(stock: $stock) {
-        username
-        email
-        stockCount
-        savedStocks {
-          stockId: String
-          coName: String
-          type: String
-          description: String
-          startWatchDt: String
-          url: String 
-          logo: String  
-          hq_address: String
-          hq_state: String
-          hq_country: String
-          closePrices: [String]
+  mutation saveStock($stock: SavedStockInput!) {
+      saveStock(stock: $stock) {
+          username
+          email
+          stockCount
+          savedStocks {
+            stockId
+            coName
+            type
+            description
+            startWatchDt
+            url
+            logo
+            hq_address
+            hq_state
+            hq_country
+            closePrices
         }
-    }
-}
+      }
+  }
 `;
 
 
@@ -56,18 +56,19 @@ export const REMOVE_STOCK = gql`
           email
           stockCount
           savedStocks {
-            stockId: String
-            coName: String
-            type: String
-            description: String
-            startWatchDt: String
-            url: String 
-            logo: String  
-            hq_address: String
-            hq_state: String
-            hq_country: String
-            closePrices: [String]
+            stockId
+            coName
+            type
+            description
+            startWatchDt
+            url
+            logo
+            hq_address
+            hq_state
+            hq_country
+            closePrices
           }
-      }
-  }
+        }
+    }
 `;
+  
