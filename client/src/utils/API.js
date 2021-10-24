@@ -71,7 +71,7 @@ export const searchStocksAPI = (query) => {
       apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_EDDIE;
       break;
     case 5:
-      apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_SETH;
+      apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_MASON;
       break;
     default:
       apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_undefined;
@@ -103,7 +103,7 @@ export const queryTickerClose = (query) => {
       apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_EDDIE;
       break;
     case 5:
-      apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_SETH;
+      apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_MASON;
       break;
     default:
       apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_undefined;
@@ -132,7 +132,7 @@ export const queryTickerCoData = (query) => {
       apiKey = process.env.REACT_APP_POLYGON_API_EDDIE;
       break;
     default:
-      apiKey = process.env.REACT_APP_POLYGON_API_SETH;
+      apiKey = process.env.REACT_APP_POLYGON_API_MASON;
   }
   console.log('polygon company data: ', query, 'key: ', keyIndex)
   return fetch(`https://api.polygon.io/v1/meta/symbols/${query}/company?apiKey=${apiKey}`)
