@@ -1,70 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
-
-import { getMe, deletestock } from '../utils/API';
+import { useQuery, useMutation } from '@apollo/client';
+import { QUERY_ME } from '../utils/queries';
+import { REMOVE_STOCK } from '../utils/mutations';
 import Auth from '../utils/auth';
-import { removestockId } from '../utils/localStorage';
+import { removeStockId } from '../utils/localStorage';
 import Chart from '../components/Chart';
-
 const dateFormat = require('../utils/dateFormat');
 
-const Savedstocks = () => {
-  const [userData, setUserData] = useState({});
 
-  // use this to determine if `useEffect()` hook needs to run again
-  const userDataLength = Object.keys(userData).length;
+const SavedStocks = () => {
+  const { loading, data } = useQuery(QUERY_ME, {fetchPolicy:"network-only"});
+  const [removeStock] = useMutation(REMOVE_STOCK);
+  const userData = data?.me || {};
 
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const token = Auth.loggedIn() ? Auth.getToken() : null;
 
-        if (!token) {
-          return false;
-        }
-
-        // const response = await getMe(token);
-
-        // if (!response.ok) {
-        //   throw new Error('something went wrong!');
-        // }
-
-        // const user = await response.json();
-        // setUserData(user);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    getUserData();
-  }, [userDataLength]);
-
-  // create function that accepts the stock's mongo _id value as param and deletes the stock from the database
-  const handleDeletestock = async (stockId) => {
+  if (!userData?.username) {
+    return (
+      <h4>You are not logged in!</h4>
+    );
+  }
+  const handleDeleteStock = async (stockId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
+
 
     if (!token) {
       return false;
     }
 
     try {
-      const response = await deletestock(stockId, token);
-
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
-      const updatedUser = await response.json();
-      setUserData(updatedUser);
-      // upon success, remove stock's id from localStorage
-      removestockId(stockId);
+      await removeStock({
+        variables: { stockId: stockId },
+        update: cache => {
+          const data = cache.readQuery({ query: QUERY_ME });
+          const userDataCache = data.me;
+          const savedStocksCache = userDataCache.savedStocks;
+          const updatedStockCache = savedStocksCache.filter((stock) =>
+            stock.stockId !== stockId
+          );
+          data.me.savedStocks = updatedStockCache;
+          cache.writeQuery({
+            query: QUERY_ME,
+            data: { data: { ...data.me.savedStocks } }
+          })
+        }
+      });
+      removeStockId(stockId);
     } catch (err) {
       console.error(err);
     }
   };
-
-  // if data isn't here yet, say so
-  if (!userDataLength) {
+  if (loading) {
     return <h2>LOADING...</h2>;
   }
 
@@ -93,7 +79,7 @@ const Savedstocks = () => {
                   </Card.Title>
                   <Card.Text> Watch Started: <br />{dateFormat(stock.startWatchDt)} </Card.Text>
                   <Chart />
-                  <Button className='btn-block btn-danger' onClick={() => handleDeletestock(stock.stockId)}>
+                  <Button className='btn-block btn-danger' onClick={() => handleDeleteStock(stock.stockId)}>
                     Remove
                   </Button>
                 </Card.Body>
@@ -106,4 +92,4 @@ const Savedstocks = () => {
   );
 };
 
-export default Savedstocks;
+export default SavedStocks;
