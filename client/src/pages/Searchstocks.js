@@ -6,14 +6,12 @@ import { savestock, searchStocksAPI, queryTickerCoData, queryTickerClose } from 
 import { savestockIds, getSavedstockIds } from '../utils/localStorage';
 
 const Searchstocks = () => {
-  // create state for holding returned google api data
+  // create state for holding returned api data
   const [searchedstocks, setSearchedstocks] = useState([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
-
   // create state to hold saved stockId values
   const [savedstockIds, setSavedstockIds] = useState(getSavedstockIds());
-
   // set up useEffect hook to save `savedstockIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
   useEffect(() => {
@@ -74,37 +72,52 @@ const Searchstocks = () => {
     //save date stock watch started 
     // const closeDataResponse = await queryTickerClose(stockId);
 
-    if (closeDataResponse.ok) {
-      const closeDataJSON = await closeDataResponse.json();
+    //try to parse close data - IF API successful
+    try {
+      if (closeDataResponse.ok) {
+        const closeDataJSON = await closeDataResponse.json();
 
-      const dates = Object.keys(closeDataJSON['Time Series (Daily)']).reverse();
+        const dates = Object.keys(closeDataJSON['Time Series (Daily)']).reverse();
 
-      // Construct data for chart input
-      const closePrices = dates.map(date => date = {
-        date,
-        close: Number(closeDataJSON['Time Series (Daily)'][date]['4. close'])
-      })
-      stockToSave.closePrices = closePrices;
+        // Construct data for chart input
+        const closePrices = dates.map(date => date = {
+          date,
+          close: Number(closeDataJSON['Time Series (Daily)'][date]['4. close'])
+        })
+        stockToSave.closePrices = closePrices;
+      }
+    } catch (err) {
+      console.error(err);
     }
 
-    if (coResponse.ok) {
-      const coData = await coResponse.json();
-      stockToSave.url = coData.url;
-      stockToSave.logo = coData.logo;
-      stockToSave.description = coData.description;
-      stockToSave.hq_address = coData.hq_address;
-      stockToSave.hq_state = coData.hq_state;
-      stockToSave.hq_country = coData.hq_country;
+    //try to parse company data - IF API successful
+    try {
+      if (coResponse.ok) {
+        const coData = await coResponse.json();
+        stockToSave.url = coData.url;
+        stockToSave.logo = coData.logo;
+        stockToSave.description = coData.description;
+        stockToSave.hq_address = coData.hq_address;
+        stockToSave.hq_state = coData.hq_state;
+        stockToSave.hq_country = coData.hq_country;
+      }
+    } catch (err) {
+      console.error(err);
     }
 
-    const response = await savestock(stockToSave, token);
+    //try to save stock data
+    try {
+      const response = await savestock(stockToSave, token);
 
-    if (!response.ok) {
-      throw new Error('something went wrong!');
+      if (!response.ok) {
+        throw new Error('something went wrong!');
+      }
+
+      // if stock successfully saves to user's account, save stock id to state
+      setSavedstockIds([...savedstockIds, stockToSave.stockId]);
+    } catch (err) {
+      console.error(err);
     }
-
-    // if stock successfully saves to user's account, save stock id to state
-    setSavedstockIds([...savedstockIds, stockToSave.stockId]);
 
   };
   const [disable, setDisable] = useState(false);
@@ -153,7 +166,7 @@ const Searchstocks = () => {
                   // <Button variant="primary" size="sm"
                   <Button
                     variant="primary" size="sm"
-                    disabled={disable} 
+                    disabled={disable}
                     // className='btn-block btn-info'
                     onClick={() => {
                       // this.setDisable(true)

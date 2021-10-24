@@ -31,7 +31,7 @@ const Savedstocks = () => {
 
         const user = await response.json();
         setUserData(user);
-        console.log(user)
+        // console.log(user)
       } catch (err) {
         console.error(err);
       }
@@ -68,7 +68,7 @@ const Savedstocks = () => {
   if (!userDataLength) {
     return <h2>LOADING...</h2>;
   }
-  console.log(userData.savedstocks)
+
   return (
 
     <>
@@ -94,9 +94,9 @@ const Savedstocks = () => {
 
                     {stock.url && <a href={stock.url}>{stock.url}</a>}
                     {stock.url && <br />}
-                    {stock.url && <img src={stock.logo} border="0" alt={stock.coName} width="76" height="57" />}
+                    {stock.logo && <img src={stock.logo} border="0" alt={stock.coName} width="76" height="57" />}
                     {stock.url && <p>Head Quarter Address: <br /><span className='small'>{stock.hq_address} {stock.hq_country}</span></p>}
-                    {stock.url && <p className='small'>{stock.description}</p>}
+                    {/* {stock.url && <p className='small'>{stock.description}</p>} */}
                     </Card.Title>
                   <Card.Text> Watch Started: {dateFormat(stock.startWatchDt)} <br />
                     Last Close: <br />
