@@ -90,11 +90,11 @@ const Savedstocks = () => {
               <Card key={Math.random(Date.now())} border='dark'>
                 <Card.Body>
                   <Card.Title>{stock.coName} <br /> Ticker: {stock.stockId} <br />
-                    {stock.url && <a href={stock.url}>{stock.url}</a>}<br />
-                    <img src={stock.logo} border="0" alt={stock.coName} width="76" height="57" />
+                    {stock.url && <a href={stock.url}>{stock.url}</a><br />}
+                    {stock.logo && <img src={stock.logo} border="0" alt={stock.coName} width="76" height="57" />}
                     <p className='small'>{stock.type}</p>
                     {/* <p className='small'>{stock.description}</p> */}
-                    <p>Head Quarter Address: <br /><span className='small'>{stock.hq_address} {stock.hq_country}</span></p>
+                    {stock.hq_address && <p>Head Quarter Address: <br /><span className='small'>{stock.hq_address} {stock.hq_country}</span></p>}
                   </Card.Title>
                   <Card.Text> Watch Started: {dateFormat(stock.startWatchDt)} <br />
                     Last Close: <br />
