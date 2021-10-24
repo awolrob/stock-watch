@@ -10,11 +10,16 @@ const typeDefs = gql `
     }
     type Stock {
         stockId: String
-        authors: [String]
+        coName: String
+        type: String
         description: String
-        title: String
-        image: String
-        link: String   
+        startWatchDt: String
+        url: String 
+        logo: String  
+        hq_address: String
+        hq_state: String
+        hq_country: String
+        closePrices: [String]
     }
     type Query {
         me: User
@@ -24,12 +29,17 @@ const typeDefs = gql `
         user: User
     }
     input SavedStockInput {
-        authors: [String]
-        description: String
         stockId: String
-        image: String
-        link: String
-        title: String
+        coName: String
+        type: String
+        description: String
+        startWatchDt: String
+        url: String 
+        logo: String  
+        hq_address: String
+        hq_state: String
+        hq_country: String
+        closePrices: [String]
     }
     type Mutation {
         login(email: String!, password: String!): Auth

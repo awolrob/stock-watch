@@ -25,38 +25,48 @@ export const ADD_USER = gql`
   }
 `;
 
-export const SAVE_STOCK = gql `
+export const SAVE_STOCK = gql`
 mutation saveStock($stock: SavedStockInput!) {
     saveStock(stock: $stock) {
         username
         email
         stockCount
         savedStocks {
-            stockId
-            authors
-            description
-            image
-            link
-            title
+          stockId: String
+          coName: String
+          type: String
+          description: String
+          startWatchDt: String
+          url: String 
+          logo: String  
+          hq_address: String
+          hq_state: String
+          hq_country: String
+          closePrices: [String]
         }
     }
 }
 `;
 
 
-export const REMOVE_STOCK = gql `
+export const REMOVE_STOCK = gql`
   mutation removeStock($stockId: String!) {
       removeStock(stockId: $stockId) {
           username
           email
           stockCount
           savedStocks {
-              stockId
-              authors
-              description
-              image
-              link
-              title
+            stockId: String
+            coName: String
+            type: String
+            description: String
+            startWatchDt: String
+            url: String 
+            logo: String  
+            hq_address: String
+            hq_state: String
+            hq_country: String
+            closePrices: [String]
           }
       }
   }

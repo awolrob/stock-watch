@@ -1,7 +1,7 @@
 {
-  "name": "Develop",
+  "name": "stock-watch",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Phase 1 - Make it work!",
   "main": "server/server.js",
   "dependencies": {
     "apollo-server-express": "^3.4.0",
@@ -20,6 +20,14 @@
     "build": "cd client && npm run build"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Stock-Watch Team",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awolrob/stock-watch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/awolrob/stock-watch/issues"
+  },
+  "homepage": "https://github.com/awolrob/stock-watch#readme"
 }
