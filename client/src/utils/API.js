@@ -109,7 +109,7 @@ export const queryTickerClose = (query) => {
       apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_undefined;
   }
   console.log('alphavantage time series daily adjusted :', query, 'key: ', keyIndex)
-  return fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${query}&apikey=${apiKey}`)
+  return fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${query}&apikey=${apiKey}`)
 };
 
 // when a stock is added to a watch list - get the Company Overview data
