@@ -44,12 +44,12 @@ module.exports = {
   },
   // save a stock to a user's `savedstocks` field by adding it to the set (to prevent duplicates)
   // user comes from `req.user` created in the auth middleware function
-  async savestock({ user, body }, res) {
+  async saveStock({ user, body }, res) {
     console.log(user);
     try {
       const updatedUser = await User.findOneAndUpdate(
         { _id: user._id },
-        { $addToSet: { savedstocks: body } },
+        { $addToSet: { savedStocks: body } },
         { new: true, runValidators: true }
       );
       return res.json(updatedUser);
@@ -59,10 +59,10 @@ module.exports = {
     }
   },
   // remove a stock from `savedstocks`
-  async deletestock({ user, params }, res) {
+  async deleteStock({ user, params }, res) {
     const updatedUser = await User.findOneAndUpdate(
       { _id: user._id },
-      { $pull: { savedstocks: { stockId: params.stockId } } },
+      { $pull: { savedStocks: { stockId: params.stockId } } },
       { new: true }
     );
     if (!updatedUser) {
