@@ -1,5 +1,7 @@
 # Project 3: Stock Watch List - Phase 1
 
+Deployed: https://cryptic-retreat-93584.herokuapp.com/
+
 ## Phase 1 - Make it work!
 
 1. Set up an Apollo Server to use GraphQL queries and mutations to fetch and modify data.
