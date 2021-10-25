@@ -62,7 +62,7 @@ export const queryTickerClose = (query) => {
   console.log('alphavantage  time series daily :',query)
   //This API returns raw (as-traded) daily time series (date, daily open, daily high, daily low, daily close, daily volume) of the global equity specified, covering 20+ years of historical data. If you are also interested in split/dividend-adjusted historical data, please use the Daily Adjusted API, which covers adjusted close values and historical split and dividend events.
   const keyAlpha = 'UMGBDC67JOA29WPN';
-  return fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${query}&outputsize=full&apikey=${keyAlpha}`)
+  return fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${query}&apikey=${keyAlpha}`)
 };
 
 // when a stock is added to a watch list - get the Company Overview data
