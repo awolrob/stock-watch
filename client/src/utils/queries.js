@@ -17,7 +17,13 @@ export const QUERY_ME = gql`
         hq_address
         hq_state
         hq_country
-        closePrices
+        closePrices 
+        [
+          {
+            date
+            close 
+          }
+        ]
       }
     }
   }
