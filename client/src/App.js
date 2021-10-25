@@ -21,7 +21,9 @@ import {
 const { Header, Content, Footer, Sider } = Layout;
 
 function App() {
+
   const [activePage, setActivePage] = useState("Searchstocks");
+
 
   function RenderPage() {
     if (activePage == "Searchstocks") {
@@ -34,6 +36,9 @@ function App() {
       return <Savedstocks />;
     }
   }
+  
+
+
   return (
     <Layout>
       <Sider
@@ -42,6 +47,15 @@ function App() {
           height: "100vh",
           position: "fixed",
           left: 0,
+        }}
+        breakpoint="lg"
+        collapsedWidth="50"
+        onBreakpoint={broken => {
+          console.log(broken);
+        }}
+        onCollapse={(collapsed, type) => {
+          
+          console.log(collapsed, type);
         }}
       >
         <div className="logo" />
@@ -92,12 +106,19 @@ function App() {
           )}
         </Menu>
       </Sider>
-      <Layout className="site-layout" style={{ marginLeft: 200 }}>
-        <Header className="site-layout-background" style={{ padding: 0, textAlign: "center" }}>
+      <Layout 
+      className="site-layout ant-row" 
+      style={
+        { 
+        marginLeft: 200,
+       }
+      }
+      >
+        <Header className="site-layout-background ant-col" style={{ padding: 0, textAlign: "center" }}>
           <PageHeader/>
 
         </Header>
-        <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
+        <Content className="ant-col" style={{ padding: 10, margin: "24px 16px 0", overflow: "initial" }}>
           <div
             className="site-layout-background"
             style={{ padding: 24, textAlign: "center" }}
@@ -105,7 +126,7 @@ function App() {
             {RenderPage()}
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>
+        <Footer className="ant-col" style={{ textAlign: "center" }}>
           Ant Design ©2018 Created by Ant UED
         </Footer>
       </Layout>
