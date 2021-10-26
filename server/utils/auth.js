@@ -25,8 +25,8 @@ console.log(token);
       const { data } = jwt.verify(token, secret, { maxAge: expiration });
       console.log(data);
       req.user = data;
-    } catch {
-      console.log('Invalid token');
+    } catch(err) {
+      console.log('Invalid token: ' + err);
       return res.status(400).json({ message: 'invalid token!' });
     }
     return req;

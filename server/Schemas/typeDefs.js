@@ -22,7 +22,7 @@ const typeDefs = gql`
         closePrices: String
     }
     type Query {
-        me: User
+        user: User
     }
     type Auth {
         token: ID!

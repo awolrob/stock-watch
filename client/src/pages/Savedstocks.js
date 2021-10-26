@@ -1,7 +1,7 @@
 import React from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
-import { QUERY_ME } from '../utils/queries';
+import { QUERY_USER } from '../utils/queries';
 import { REMOVE_STOCK } from '../utils/mutations';
 import Auth from '../utils/auth';
 import { removeStockId } from '../utils/localStorage';
@@ -10,9 +10,9 @@ const dateFormat = require('../utils/dateFormat');
 
 
 const SavedStocks = () => {
-  const { loading, data } = useQuery(QUERY_ME, {fetchPolicy:"network-only"});
+  const { loading, data } = useQuery(QUERY_USER, {fetchPolicy:"network-only"});
   const [removeStock] = useMutation(REMOVE_STOCK);
-  const userData = data?.me || {};
+  const userData = data?.user || {};
 
 
   if (!userData?.username) {
@@ -32,16 +32,16 @@ const SavedStocks = () => {
       await removeStock({
         variables: { stockId: stockId },
         update: cache => {
-          const data = cache.readQuery({ query: QUERY_ME });
-          const userDataCache = data.me;
-          const savedStocksCache = userDataCache.savedStocks;
+          // const data = cache.readQuery({ query: QUERY_USER });
+          // const userDataCache = data.user;
+          const savedStocksCache = userData.savedStocks;
           const updatedStockCache = savedStocksCache.filter((stock) =>
             stock.stockId !== stockId
           );
-          data.me.savedStocks = updatedStockCache;
+          userData.savedStocks = updatedStockCache;
           cache.writeQuery({
-            query: QUERY_ME,
-            data: { data: { ...data.me.savedStocks } }
+            query: QUERY_USER,
+            data: { data: { ...userData.savedStocks } }
           })
         }
       });

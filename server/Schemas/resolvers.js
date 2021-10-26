@@ -5,7 +5,7 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: {
-        me: async (parent, args, context) => {
+        user: async (parent, args, context) => {
             console.log(context.user);
             if (context.user) {
                 try {
