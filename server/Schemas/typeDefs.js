@@ -39,7 +39,10 @@ const typeDefs = gql`
         hq_address: String
         hq_state: String
         hq_country: String
-
+        closePrices: {
+            date: String
+            close: Float
+        }
     }
 
     type Prices {

@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import SearchStocks from './pages/SearchStocks';
-import SavedStocks from './pages/SavedStocks';
+import SearchStocks from './pages/Searchstocks';
+import SavedStocks from './pages/Savedstocks';
 import Navbar from './components/Navbar';
 import { setContext } from '@apollo/client/link/context';
-import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink, } from '@apollo-client';
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink, } from '@apollo/client';
 
 
 
