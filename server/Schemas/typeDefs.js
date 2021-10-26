@@ -19,7 +19,7 @@ const typeDefs = gql`
         hq_address: String
         hq_state: String
         hq_country: String
-        closePrices: [Prices]
+        closePrices: String
     }
     type Query {
         me: User

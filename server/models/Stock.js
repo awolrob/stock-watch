@@ -35,12 +35,7 @@ const stockSchema = new Schema({
   hq_country: {
     type: String
   },
-  closePrices: [
-    {
-      date: String,
-      close: Number,
-    },
-  ],
+  closePrices: String,
 });
 
 module.exports = stockSchema;
