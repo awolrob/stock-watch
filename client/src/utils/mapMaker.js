@@ -14,7 +14,6 @@ export function mapLocation(mapAddy) {
         (response) => {
             const { lat, lng } = response.results[0].geometry.location;
             initMap(lat, lng)
-            console.log(lat, lng);
         },
         (error) => {
             console.error(error);

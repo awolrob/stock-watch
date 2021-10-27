@@ -76,8 +76,7 @@ export const searchStocksAPI = (query) => {
     default:
       apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_undefined;
   }
-  console.log('alphavantage  symbol search :', query, 'key: ', keyIndex)
-  return fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${query}&apikey=${apiKey}`);
+    return fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${query}&apikey=${apiKey}`);
 
 };
 
@@ -108,7 +107,6 @@ export const queryTickerClose = (query) => {
     default:
       apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_undefined;
   }
-  console.log('alphavantage time series daily adjusted :', query, 'key: ', keyIndex)
   return fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${query}&apikey=${apiKey}`)
 };
 
@@ -134,7 +132,6 @@ export const queryTickerCoData = (query) => {
     default:
       apiKey = process.env.REACT_APP_POLYGON_API_MASON;
   }
-  console.log('polygon company data: ', query, 'key: ', keyIndex)
   return fetch(`https://api.polygon.io/v1/meta/symbols/${query}/company?apiKey=${apiKey}`)
 
 };

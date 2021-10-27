@@ -1,6 +1,7 @@
 # Project 3: Stock Watch List - Phase 1
 
-Deployed: https://cryptic-retreat-93584.herokuapp.com/
+* Deployed: https://www.stockwatch.life/
+* Github: https://github.com/awolrob/stock-watch
 
 ## Phase 1 - Make it work!
 
