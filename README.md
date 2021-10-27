@@ -244,7 +244,7 @@ You are required to submit BOTH of the following for review:
 
 ## Phase 2 - Make it SOCIAL!
 
-add the ME (user profile page)
+add the USER (user profile page)
 add the reactions to people's watchlist (after the stock cards) and stock picks (in each card below the shart)
 
 add a link on the stock card to the customer's web site

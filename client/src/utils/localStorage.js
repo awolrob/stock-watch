@@ -1,12 +1,12 @@
-export const getSavedstockIds = () => {
-  const savedstockIds = localStorage.getItem('saved_stocks')
+export const getSavedStockIds = () => {
+  const savedStockIds = localStorage.getItem('saved_stocks')
     ? JSON.parse(localStorage.getItem('saved_stocks'))
     : [];
 
-  return savedstockIds;
+  return savedStockIds;
 };
 
-export const savestockIds = (stockIdArr) => {
+export const saveStockIds = (stockIdArr) => {
   if (stockIdArr.length) {
     localStorage.setItem('saved_stocks', JSON.stringify(stockIdArr));
   } else {
@@ -14,17 +14,17 @@ export const savestockIds = (stockIdArr) => {
   }
 };
 
-export const removestockId = (stockId) => {
-  const savedstockIds = localStorage.getItem('saved_stocks')
+export const removeStockId = (stockId) => {
+  const savedStockIds = localStorage.getItem('saved_stocks')
     ? JSON.parse(localStorage.getItem('saved_stocks'))
     : null;
 
-  if (!savedstockIds) {
+  if (!savedStockIds) {
     return false;
   }
 
-  const updatedSavedstockIds = savedstockIds?.filter((savedstockId) => savedstockId !== stockId);
-  localStorage.setItem('saved_stocks', JSON.stringify(updatedSavedstockIds));
+  const updatedSavedStockIds = savedStockIds?.filter((savedStockId) => savedStockId !== stockId);
+  localStorage.setItem('saved_stocks', JSON.stringify(updatedSavedStockIds));
 
   return true;
 };

@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, ListGroup } from 'react-bootstrap';
-
+import { useQuery, useMutation } from '@apollo/client';
+import { searchStocksAPI, queryTickerCoData, queryTickerClose } from '../utils/API';
 import Auth from '../utils/auth';
-import { savestock, searchStocksAPI, queryTickerCoData, queryTickerClose } from '../utils/API';
-import { savestockIds, getSavedstockIds } from '../utils/localStorage';
+import { saveStockIds, getSavedStockIds } from '../utils/localStorage';
+import { SAVE_STOCK } from '../utils/mutations';
+import { QUERY_USER } from '../utils/queries';
 
-const Searchstocks = () => {
-  // create state for holding returned api data
-  const [searchedstocks, setSearchedstocks] = useState([]);
+const SearchStocks = () => {
+  const { _loading, data } = useQuery(QUERY_USER, { fetchPolicy: "network-only" });
+  let userData = data?.user || {};
+  // create state for holding returned google api data
+  const [searchedStocks, setSearchedStocks] = useState([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
   // create state to hold saved stockId values
-  const [savedstockIds, setSavedstockIds] = useState(getSavedstockIds());
-  // set up useEffect hook to save `savedstockIds` list to localStorage on component unmount
+  const [savedStockIds, setSavedStockIds] = useState(getSavedStockIds());
+  const [saveStock] = useMutation(SAVE_STOCK);
+  // set up useEffect hook to save `savedStockIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
   useEffect(() => {
-    return () => savestockIds(savedstockIds);
+    return () => saveStockIds(savedStockIds);
   });
 
   // create method to search for stocks and set state on form submit
@@ -30,8 +35,9 @@ const Searchstocks = () => {
       const response = await searchStocksAPI(searchInput);
 
       if (!response.ok) {
-        throw new Error('something went wrong!');
+        throw new Error('Error!');
       }
+
       const { bestMatches } = await response.json();
       const stockData = bestMatches.map((stock) => ({
         stockId: stock['1. symbol'],
@@ -39,7 +45,8 @@ const Searchstocks = () => {
         coName: stock['2. name'],
         startWatchDt: '',
       }));
-      setSearchedstocks(stockData);
+
+      setSearchedStocks(stockData);
       setSearchInput('');
     } catch (err) {
       console.error(err);
@@ -47,32 +54,21 @@ const Searchstocks = () => {
   };
 
   // create function to handle saving a stock to our database
-  const handleSavestock = async (stockId) => {
-    // find the stock in `searchedstocks` state by the matching id
-    const stockToSave = searchedstocks.find((stock) => stock.stockId === stockId);
+  const handleSaveStock = async (stockId) => {
+    // find the stock in `searchedStocks` state by the matching id
+    const stockToSave = searchedStocks.find((stock) => stock.stockId === stockId);
+    setSavedStockIds([...savedStockIds, stockToSave.stockId]);
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
     if (!token) {
       return false;
     }
-
     const closeDataResponse = await queryTickerClose(stockId);
     const coResponse = await queryTickerCoData(stockId);
-
-    /* ******************
-    TEST CODE - REMOVE TEST DATE - used to get data to display graph since date watch started
-       ********************* */
-    // stockToSave.startWatchDt = new Date();
     const d = new Date();
     stockToSave.startWatchDt = d.toLocaleDateString(d.setDate(d.getDate() - 21));
-    /* ******************
-    TEST CODE - REMOVE TEST DATE  
-       ********************* */
-    //save date stock watch started 
-    // const closeDataResponse = await queryTickerClose(stockId);
 
-    //try to parse close data - IF API successful
     try {
       if (closeDataResponse.ok) {
         const closeDataJSON = await closeDataResponse.json();
@@ -86,12 +82,6 @@ const Searchstocks = () => {
         })
         stockToSave.closePrices = closePrices;
       }
-    } catch (err) {
-      console.error(err);
-    }
-
-    //try to parse company data - IF API successful
-    try {
       if (coResponse.ok) {
         const coData = await coResponse.json();
         stockToSave.url = coData.url;
@@ -105,22 +95,24 @@ const Searchstocks = () => {
       console.error(err);
     }
 
-    //try to save stock data
     try {
-      const response = await savestock(stockToSave, token);
+      await saveStock({
+        variables: { stock: stockToSave },
+        update: cache => {
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
-      // if stock successfully saves to user's account, save stock id to state
-      setSavedstockIds([...savedstockIds, stockToSave.stockId]);
+          // const { user } = cache.readQuery({ query: QUERY_USER });
+          let stocks = [...(userData.savedStocks ?? []), stockToSave]
+          cache.writeQuery({
+            query: QUERY_USER, data:
+              { user: { ...userData }, savedStocks: [...stocks] }
+          })
+        }
+      });
+      
     } catch (err) {
       console.error(err);
     }
-
   };
-  const [disable, setDisable] = useState(false);
 
   return (
     <>
@@ -151,12 +143,12 @@ const Searchstocks = () => {
 
       <Container>
         <h2>
-          {searchedstocks.length
-            ? `Viewing ${searchedstocks.length} results:`
+          {searchedStocks.length
+            ? `Viewing ${searchedStocks.length} results:`
             : 'Search for a stock to begin'}
         </h2>
         <ListGroup defaultActiveKey="#link1">
-          {searchedstocks.map((stock) => {
+          {searchedStocks.map((stock) => {
             return (
               <ListGroup.Item key={stock.stockId}>
                 Ticker: {stock.stockId} <br />
@@ -170,10 +162,10 @@ const Searchstocks = () => {
                     // this.setDisable(true)
                     // handleSavestock(stock.stockId)
                     // }}
-                  disabled={savedstockIds?.some((savedstockId) => savedstockId === stock.stockId)}
-                  onClick={() => handleSavestock(stock.stockId)}
+                    disabled={savedStockIds?.some((savedstockId) => savedstockId === stock.stockId)}
+                    onClick={() => handleSaveStock(stock.stockId)}
                   >
-                    {savedstockIds?.some((savedstockId) => savedstockId === stock.stockId)
+                    {savedStockIds?.some((savedStockId) => savedStockId === stock.stockId)
                       ? 'You are Watching This Stock!'
                       : 'Add Stock To Watch List!'}
                   </Button>
@@ -187,4 +179,4 @@ const Searchstocks = () => {
   );
 };
 
-export default Searchstocks;
+export default SearchStocks;

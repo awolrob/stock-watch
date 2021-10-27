@@ -34,6 +34,7 @@ class AuthService {
 
   login(idToken) {
     // Saves user token to localStorage
+    
     localStorage.setItem('id_token', idToken);
     //clear old stock records from previous session / user at log on
     localStorage.removeItem('saved_stocks')
