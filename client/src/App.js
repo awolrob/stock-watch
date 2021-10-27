@@ -7,12 +7,10 @@ import { setContext } from '@apollo/client/link/context';
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink, } from '@apollo/client';
 
 
-console.log('before')
 const httpLink = createHttpLink({
   uri: '/graphql',
 });
 
-console.log('after')
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
   return {

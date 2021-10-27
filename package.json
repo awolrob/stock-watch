@@ -4,7 +4,6 @@
   "description": "## Phase 1 - Make it work!",
   "main": "server/server.js",
   "dependencies": {
-    "@react-google-maps/api": "^2.5.0",
     "apollo-server-express": "^3.4.0",
     "graphql": "^15.6.1"
   },
