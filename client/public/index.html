@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
   <meta name="description" content="Stock watch list with search application and login" />
-  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/ios/192.png" />
   <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -25,13 +25,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Rubik:ital,wght@0,400;1,300&display=swap"
     rel="stylesheet">
 
-
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANVcwxmtqRv976LXeFAEq86ffTenupwDk&amp;callback=initMap&amp;v=weekly"
+    async=""></script>
   <title>Stock Watch List</title>
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root"></div>
+  <div id="root">
+
+  </div>
+  <div id="map" class="map"></div>
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -42,6 +47,27 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+  <script>
+    // (function () {
+    //   if ("serviceWorker" in navigator) {
+    //     navigator.serviceWorker.register("%PUBLIC_URL%/service-worker.js")
+    //       .then(() => console.log("Service Worker registered successfully."))
+    //       .catch(error => console.log("Service Worker registration failed:", error));
+    //   }
+    // })();
+    function initMap(lat, lng) {
+      window.map = new window.google.maps.Map(document.getElementById("map"), {
+        center:
+        {
+          lat: -34.397,
+          lng: 150.644
+        },
+        zoom: 8,
+        mapId: "34951e58f2519ded"
+      });
+    }
+
+  </script>
 </body>
 
 </html>

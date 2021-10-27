@@ -2,56 +2,56 @@ import { getRandomInt } from './randomKey';
 require('dotenv').config()
 
 // route to get logged in user's info (needs the token)
-export const getMe = (token) => {
-  return fetch('/api/users/me', {
-    headers: {
-      'Content-Type': 'application/json',
-      authorization: `Bearer ${token}`,
-    },
-  });
-};
+// export const getMe = (token) => {
+//   return fetch('/api/users/me', {
+//     headers: {
+//       'Content-Type': 'application/json',
+//       authorization: `Bearer ${token}`,
+//     },
+//   });
+// };
 
-export const createUser = (userData) => {
-  return fetch('/api/users', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userData),
-  });
-};
+// export const createUser = (userData) => {
+//   return fetch('/api/users', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(userData),
+//   });
+// };
 
-export const loginUser = (userData) => {
-  return fetch('/api/users/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userData),
-  });
-};
+// export const loginUser = (userData) => {
+//   return fetch('/api/users/login', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(userData),
+//   });
+// };
 
 // save stock data for a logged in user
-export const savestock = (stockData, token) => {
-  return fetch('/api/users', {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(stockData),
-  });
-};
+// export const savestock = (stockData, token) => {
+//   return fetch('/api/users', {
+//     method: 'PUT',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       authorization: `Bearer ${token}`,
+//     },
+//     body: JSON.stringify(stockData),
+//   });
+// };
 
 // remove saved stock data for a logged in user
-export const deletestock = (stockId, token) => {
-  return fetch(`/api/users/stocks/${stockId}`, {
-    method: 'DELETE',
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  });
-};
+// export const deletestock = (stockId, token) => {
+//   return fetch(`/api/users/stocks/${stockId}`, {
+//     method: 'DELETE',
+//     headers: {
+//       authorization: `Bearer ${token}`,
+//     },
+//   });
+// };
 
 // make a search to alphaavantage stocks symbol search api
 export const searchStocksAPI = (query) => {
@@ -71,7 +71,7 @@ export const searchStocksAPI = (query) => {
       apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_EDDIE;
       break;
     case 5:
-      apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_SETH;
+      apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_MASON;
       break;
     default:
       apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_undefined;
@@ -103,13 +103,13 @@ export const queryTickerClose = (query) => {
       apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_EDDIE;
       break;
     case 5:
-      apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_SETH;
+      apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_MASON;
       break;
     default:
       apiKey = process.env.REACT_APP_ALPHAVANTAGE_API_undefined;
   }
   console.log('alphavantage time series daily adjusted :', query, 'key: ', keyIndex)
-  return fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${query}&apikey=${apiKey}`)
+  return fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${query}&apikey=${apiKey}`)
 };
 
 // when a stock is added to a watch list - get the Company Overview data
@@ -132,7 +132,7 @@ export const queryTickerCoData = (query) => {
       apiKey = process.env.REACT_APP_POLYGON_API_EDDIE;
       break;
     default:
-      apiKey = process.env.REACT_APP_POLYGON_API_SETH;
+      apiKey = process.env.REACT_APP_POLYGON_API_MASON;
   }
   console.log('polygon company data: ', query, 'key: ', keyIndex)
   return fetch(`https://api.polygon.io/v1/meta/symbols/${query}/company?apiKey=${apiKey}`)
