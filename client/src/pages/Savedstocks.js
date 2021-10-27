@@ -10,10 +10,11 @@ const dateFormat = require('../utils/dateFormat');
 
 
 const SavedStocks = () => {
-  const { loading, data } = useQuery(QUERY_USER, { fetchPolicy: "network-only" });
+  const { loading, data } = useQuery(QUERY_USER, {fetchPolicy:"network-only"});
   const [removeStock] = useMutation(REMOVE_STOCK);
   const userData = data?.user || {};
-  
+
+
   if (!userData?.username) {
     return (
       <h4>You are not logged in!</h4>
