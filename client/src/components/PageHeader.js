@@ -1,17 +1,17 @@
 import React from "react";
-// import {
-//   BrowserRouter as Router,
-//   Switch,
-//   Route,
-//   Link
-// } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import { PageHeader, Tabs, Button, Statistic, Descriptions } from 'antd';
 import Savedstocks from "../pages/Savedstocks";
 import Searchstocks from "../pages/Searchstocks";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import Auth from "../utils/auth";
-// import {useHistory}  from 'react-router';
+import {useHistory}  from 'react-router';
 import { Menu } from 'antd';
 import AppNavbar from "./Navbar";
 

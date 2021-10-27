@@ -26,20 +26,6 @@ function App() {
 
   const [activePage, setActivePage] = useState("Searchstocks");
 
-  // const searchClick = () => {
-  //   history.push('./')
-  // }
-  // const saveClick = () => {
-  //   history.push('./saved')
-  // }
-  // const cashClick = () => {
-  //   history.push('./stripe')
-  // }
-  // const signClick = () => {
-  //   history.push('./signup')
-  // }
-
-
   function RenderPage() {
     if (activePage == "Searchstocks") {
       return <Searchstocks />;

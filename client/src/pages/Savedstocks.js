@@ -122,3 +122,19 @@ const Savedstocks = () => {
 };
 
 export default Savedstocks;
+
+
+// const history = useHistory();
+
+// const searchClick = () => {
+//   history.push('./')
+// }
+// const saveClick = () => {
+//   history.push('./saved')
+// }
+// const cashClick = () => {
+//   history.push('./stripe')
+// }
+// const signClick = () => {
+//   history.push('./signup')
+// }
