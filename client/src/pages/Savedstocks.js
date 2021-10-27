@@ -10,11 +10,10 @@ const dateFormat = require('../utils/dateFormat');
 
 
 const SavedStocks = () => {
-  const { loading, data } = useQuery(QUERY_USER, {fetchPolicy:"network-only"});
+  const { loading, data } = useQuery(QUERY_USER, { fetchPolicy: "network-only" });
   const [removeStock] = useMutation(REMOVE_STOCK);
   const userData = data?.user || {};
-
-
+  
   if (!userData?.username) {
     return (
       <h4>You are not logged in!</h4>
@@ -38,10 +37,10 @@ const SavedStocks = () => {
           const updatedStockCache = savedStocksCache.filter((stock) =>
             stock.stockId !== stockId
           );
-          userData.savedStocks = updatedStockCache;
+          // userData.savedStocks = updatedStockCache;
           cache.writeQuery({
             query: QUERY_USER,
-            data: { data: { ...userData.savedStocks } }
+            data: { user: {...userData, savedStocks: updatedStockCache}}
           })
         }
       });
@@ -63,17 +62,17 @@ const SavedStocks = () => {
       </Jumbotron>
       <Container>
         <h2>
-          {userData.savedstocks.length
+          {userData.savedStocks.length
             ? ``
             : 'Search Stocks - Create A Watch List'}
         </h2>
         <CardColumns>
-          {userData.savedstocks.map((stock) => {
+          {userData.savedStocks.map((stock) => {
             console.log(stock)
             return (
               <Card key={stock.stockId} border='dark'>
                 <Card.Body>
-                  <Card.Title>{stock.coName} <br /> Ticker: {stock.stockId} <br/>
+                  <Card.Title>{stock.coName} <br /> Ticker: {stock.stockId} <br />
                     {stock.url && <a href={stock.url}>{stock.url}</a>}
                     <p className='small'>{stock.types}</p>
                   </Card.Title>

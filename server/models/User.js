@@ -21,7 +21,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    // set savedstocks to be an array of data that adheres to the stockSchema
+    // set savedStocks to be an array of data that adheres to the stockSchema
     savedStocks: [stockSchema],
   },
   // set this to use virtual below

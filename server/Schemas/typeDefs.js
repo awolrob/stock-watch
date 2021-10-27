@@ -19,7 +19,7 @@ const typeDefs = gql`
         hq_address: String
         hq_state: String
         hq_country: String
-        closePrices: String
+        closePrices: [Prices2]
     }
     type Query {
         user: User
@@ -39,10 +39,15 @@ const typeDefs = gql`
         hq_address: String
         hq_state: String
         hq_country: String
-        closePrices: String
+        closePrices: [Prices]
     }
 
-    type Prices {
+    input Prices {
+        date: String
+        close: Float
+    }
+
+    type Prices2 {
         date: String
         close: Float
     }

@@ -42,7 +42,10 @@ export const SAVE_STOCK = gql`
             hq_address
             hq_state
             hq_country
-            closePrices 
+            closePrices {
+              date
+              close
+            }
         }
       }
   }
@@ -66,7 +69,10 @@ export const REMOVE_STOCK = gql`
             hq_address
             hq_state
             hq_country
-            closePrices 
+            closePrices {
+              date
+              close
+            }
           }
         }
     }

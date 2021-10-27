@@ -1,6 +1,6 @@
 const { Schema } = require('mongoose');
 
-// This is a subdocument schema, it won't become its own model but we'll use it as the schema for the User's `savedstocks` array in User.js
+// This is a subdocument schema, it won't become its own model but we'll use it as the schema for the User's `savedStocks` array in User.js
 const stockSchema = new Schema({
   // saved stock ticker
   stockId: {
@@ -35,7 +35,12 @@ const stockSchema = new Schema({
   hq_country: {
     type: String
   },
-  closePrices: String,
+  closePrices: [
+    {
+      date: String,
+      close: Number
+    }
+  ]
 });
 
 module.exports = stockSchema;

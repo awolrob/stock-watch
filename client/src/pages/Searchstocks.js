@@ -80,7 +80,7 @@ const SearchStocks = () => {
         date,
         close: Number(closeDataJSON['Time Series (Daily)'][date]['4. close'])
       })
-      stockToSave.closePrices = JSON.stringify(closePrices);
+      stockToSave.closePrices = closePrices;
     }
     if (coResponse.ok) {
       const coData = await coResponse.json();
