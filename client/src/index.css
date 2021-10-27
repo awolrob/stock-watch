@@ -24,3 +24,13 @@ h6 {
 .site-layout .site-layout-background {
   background: #fff;
 }
+
+.layout {
+  margin-left: 200px;
+}
+
+@media screen and (max-width: 991px) {
+  .layout {
+    margin-left: 50px;
+  }
+}

@@ -6,7 +6,9 @@ import LoginForm from "./components/LoginForm";
 import SignUpForm from "./components/SignupForm";
 import PageHeader from "./components/PageHeader";
 import Auth from "./utils/auth";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Tabs, Button, Statistic, Descriptions } from "antd";
+import {useHistory}  from 'react-router';
+import AppNavbar from "./components/Navbar";
 import {
   AppstoreOutlined,
   BarChartOutlined,
@@ -24,6 +26,19 @@ function App() {
 
   const [activePage, setActivePage] = useState("Searchstocks");
 
+  // const searchClick = () => {
+  //   history.push('./')
+  // }
+  // const saveClick = () => {
+  //   history.push('./saved')
+  // }
+  // const cashClick = () => {
+  //   history.push('./stripe')
+  // }
+  // const signClick = () => {
+  //   history.push('./signup')
+  // }
+
 
   function RenderPage() {
     if (activePage == "Searchstocks") {
@@ -37,10 +52,11 @@ function App() {
     }
   }
   
-
+ 
 
   return (
     <Layout>
+      
       <Sider
         style={{
           overflow: "auto",
@@ -54,7 +70,6 @@ function App() {
           console.log(broken);
         }}
         onCollapse={(collapsed, type) => {
-          
           console.log(collapsed, type);
         }}
       >
@@ -107,12 +122,9 @@ function App() {
         </Menu>
       </Sider>
       <Layout 
-      className="site-layout ant-row" 
-      style={
-        { 
-        marginLeft: 200,
-       }
-      }
+        className="site-layout ant-row layout" 
+        breakpoint="lg"
+        
       >
         <Header className="site-layout-background ant-col" style={{ padding: 0, textAlign: "center" }}>
           <PageHeader/>
@@ -135,3 +147,12 @@ function App() {
 }
 
 export default App;
+
+
+        // onBreakpoint={broken => {
+        //   console.log(broken);
+        // }}
+        // onCollapse={(collapsed, style) => {
+        //   const style = {marginLeft:50}
+        //   console.log(collapsed, type);
+        // }}
