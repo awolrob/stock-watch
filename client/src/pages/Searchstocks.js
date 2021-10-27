@@ -99,9 +99,6 @@ const SearchStocks = () => {
           
           // const { user } = cache.readQuery({ query: QUERY_USER });
           let stocks = [...(userData.savedStocks ?? []), stockToSave]
-
-
-          
           cache.writeQuery({
             query: QUERY_USER, data:
               {user:{ ...userData}, savedStocks: [...stocks] }
