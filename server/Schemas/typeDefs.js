@@ -19,10 +19,10 @@ const typeDefs = gql`
         hq_address: String
         hq_state: String
         hq_country: String
-        closePrices: String
+        closePrices: [String]
     }
     type Query {
-        me: User
+        user: User
     }
     type Auth {
         token: ID!
@@ -39,7 +39,7 @@ const typeDefs = gql`
         hq_address: String
         hq_state: String
         hq_country: String
-        closePrices: String
+        closePrices: [String]
     }
 
     type Prices {

@@ -25,13 +25,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Rubik:ital,wght@0,400;1,300&display=swap"
     rel="stylesheet">
 
-
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANVcwxmtqRv976LXeFAEq86ffTenupwDk&amp;callback=initMap&amp;v=weekly"
+    async=""></script>
   <title>Stock Watch List</title>
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root"></div>
+  <div id="root">
+    
+  </div>
+  <div id="map"></div>
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -42,6 +47,20 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+  <script>
+    function initMap(lat, lng) {
+      window.map = new window.google.maps.Map(document.getElementById("map"), {
+        center:
+        {
+          lat: -34.397,
+          lng: 150.644
+        },
+        zoom: 8,
+        mapId: "34951e58f2519ded"
+      });
+    }
+
+  </script>
 </body>
 
 </html>

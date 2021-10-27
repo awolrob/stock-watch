@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, ListGroup } from 'react-bootstrap';
+import { useQuery, useMutation } from '@apollo/client';
 import { searchStocksAPI, queryTickerCoData, queryTickerClose } from '../utils/API';
 import Auth from '../utils/auth';
 import { saveStockIds, getSavedStockIds } from '../utils/localStorage';
-import { useMutation } from '@apollo/react-hooks';
 import { SAVE_STOCK } from '../utils/mutations';
-import { QUERY_ME } from '../utils/queries';
+import { QUERY_USER } from '../utils/queries';
 
 const SearchStocks = () => {
+  const { loading, data } = useQuery(QUERY_USER, {fetchPolicy:"network-only"});
+  let userData = data?.user || {};
   // create state for holding returned google api data
   const [searchedStocks, setSearchedStocks] = useState([]);
   // create state for holding our search field data
@@ -94,10 +96,12 @@ const SearchStocks = () => {
       await saveStock({
         variables: { stock: stockToSave },
         update: cache => {
-          const { me } = cache.readQuery({ query: QUERY_ME });
+          
+          // const { user } = cache.readQuery({ query: QUERY_USER });
+          let stocks = [...(userData.savedStocks ?? []), stockToSave]
           cache.writeQuery({
-            query: QUERY_ME, data:
-              { ...me, savedStocks: [...me.savedStocks, stockToSave] }
+            query: QUERY_USER, data:
+              {user:{ ...userData}, savedStocks: [...stocks] }
           })
         }
       });
