@@ -1,15 +1,15 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import React, { useState } from "react";
+// import {
+//   BrowserRouter as Router,
+//   Switch,
+//   Route,
+//   Link
+// } from "react-router-dom";
 import { PageHeader, Tabs, Button, Statistic, Descriptions } from 'antd';
 import Savedstocks from "../pages/Savedstocks";
 import Searchstocks from "../pages/Searchstocks";
 import LoginForm from "./LoginForm";
-import SignupForm from "./SignupForm";
+import SignUpForm from "./SignupForm";
 import Auth from "../utils/auth";
 import {useHistory}  from 'react-router';
 import { Menu } from 'antd';
@@ -17,19 +17,19 @@ import AppNavbar from "./Navbar";
 
 
 const RenderPage = () => {
-  const history = useHistory();
 
-  const searchClick = () => {
-    history.push('./')
-  }
-  const saveClick = () => {
-    history.push('./saved')
-  }
-  const cashClick = () => {
-    history.push('./stripe')
-  }
-  const signClick = () => {
-    history.push('./signup')
+  const [activePage, setActivePage] = useState("Searchstocks");
+
+  function RenderPage() {
+    if (activePage == "Searchstocks") {
+      return <Searchstocks />;
+    } else if (activePage == "SignupForm") {
+      return <SignUpForm />;
+    } else if (activePage == "LoginForm") {
+      return <LoginForm />;
+    } else if (activePage == "Savedstocks") {
+      return <Savedstocks />;
+    }
   }
     return (
       Auth.loggedIn() ? (
@@ -40,9 +40,9 @@ const RenderPage = () => {
         title="Stock Watch"
         subTitle="The Ultimate Stock Portfolio Assistant"
         extra={[
-          <Button key="4" onClick={searchClick}>Search Stocks</Button>,
-          <Button key="3" onClick={saveClick}>Your Stocks</Button>,
-          <Button key="2" onClick={cashClick}>Donations</Button>,
+          <Button key="4" onClick={() => {setActivePage("Searchstocks");}}>Home</Button>,
+          <Button key="3" onClick={() => {setActivePage("Savedstocks");}}>Your Stocks</Button>,
+          <Button key="2" onClick={() => {setActivePage("Searchstocks");}}>Donations</Button>,
           <Button key="1" onClick={Auth.logout} type="primary">
             Logout
           </Button>,
@@ -57,8 +57,8 @@ const RenderPage = () => {
         title="Stock Watch"
         subTitle="The Ultimate Stock Portfolio Assistant"
         extra={[
-          <Button key="3" onClick={searchClick}>Search Stocks</Button>,
-          <Button key="2" onClick={signClick}>Sign Up</Button>,
+          <Button key="3" onClick={() => {setActivePage("Searchstocks");}}>Home</Button>,
+          <Button key="2" onClick={() => {setActivePage("SignupForm");}}>Sign Up</Button>,
           <Button key="1" onClick={Auth.login} type="primary">
             Login
           </Button>

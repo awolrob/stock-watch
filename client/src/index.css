@@ -29,6 +29,10 @@ h6 {
   margin-left: 200px;
 }
 
+a {
+  background-color: white !important;
+}
+
 @media screen and (max-width: 991px) {
   .layout {
     margin-left: 50px;
