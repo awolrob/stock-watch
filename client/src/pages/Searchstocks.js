@@ -166,14 +166,12 @@ const Searchstocks = () => {
                   // <Button variant="primary" size="sm"
                   <Button
                     variant="primary" size="sm"
-                    disabled={disable}
-                    // className='btn-block btn-info'
-                    onClick={() => {
-                      // this.setDisable(true)
-                      handleSavestock(stock.stockId)
-                    }}
-                  // disabled={savedstockIds?.some((savedstockId) => savedstockId === stock.stockId)}
-                  // onClick={() => handleSavestock(stock.stockId)}
+                    // onClick={() => {
+                    // this.setDisable(true)
+                    // handleSavestock(stock.stockId)
+                    // }}
+                  disabled={savedstockIds?.some((savedstockId) => savedstockId === stock.stockId)}
+                  onClick={() => handleSavestock(stock.stockId)}
                   >
                     {savedstockIds?.some((savedstockId) => savedstockId === stock.stockId)
                       ? 'You are Watching This Stock!'

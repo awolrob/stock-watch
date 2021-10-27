@@ -104,6 +104,7 @@ const Savedstocks = () => {
                       `${dateFormat(stock.closePrices[stock.closePrices.length - 1].date)} @ USD$${stock.closePrices[stock.closePrices.length - 1].close}`)}
                     <br />
                   </Card.Text>
+                  {console.log(stock.closePrices)}
                   <p className='small'>Price History Since Your Watch Started </p>
                   <Chart closePrices={stock.closePrices} startWatchDt={stock.startWatchDt} fill="#82ca9d" />
                   <br />
