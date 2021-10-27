@@ -38,10 +38,10 @@ const SavedStocks = () => {
           const updatedStockCache = savedStocksCache.filter((stock) =>
             stock.stockId !== stockId
           );
-          userData.savedStocks = updatedStockCache;
+          // userData.savedStocks = updatedStockCache;
           cache.writeQuery({
             query: QUERY_USER,
-            data: { data: { ...userData.savedStocks } }
+            data: { user: {...userData, savedStocks: updatedStockCache}}
           })
         }
       });
@@ -63,12 +63,12 @@ const SavedStocks = () => {
       </Jumbotron>
       <Container>
         <h2>
-          {userData.savedstocks.length
+          {userData.savedStocks.length
             ? ``
             : 'Search Stocks - Create A Watch List'}
         </h2>
         <CardColumns>
-          {userData.savedstocks.map((stock) => {
+          {userData.savedStocks.map((stock) => {
             console.log(stock)
             return (
               <Card key={stock.stockId} border='dark'>
