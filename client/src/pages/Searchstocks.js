@@ -8,7 +8,8 @@ import { SAVE_STOCK } from '../utils/mutations';
 import { QUERY_USER } from '../utils/queries';
 
 const SearchStocks = () => {
-  const { _loading, data } = useQuery(QUERY_USER, { fetchPolicy: "network-only" });
+  const { loading, data } = useQuery(QUERY_USER, { fetchPolicy: "network-only" });
+
   let userData = data?.user || {};
   // create state for holding returned google api data
   const [searchedStocks, setSearchedStocks] = useState([]);
@@ -60,9 +61,14 @@ const SearchStocks = () => {
     setSavedStockIds([...savedStockIds, stockToSave.stockId]);
 
     // get token
-    const token = Auth.loggedIn() ? Auth.getToken() : null;
-    if (!token) {
-      return false;
+    try {
+      const token = Auth.loggedIn() ? Auth.getToken() : null;
+      if (!token) {
+        return false;
+      }
+    }
+    catch {
+
     }
     const closeDataResponse = await queryTickerClose(stockId);
     const coResponse = await queryTickerCoData(stockId);
@@ -99,7 +105,6 @@ const SearchStocks = () => {
       await saveStock({
         variables: { stock: stockToSave },
         update: cache => {
-
           // const { user } = cache.readQuery({ query: QUERY_USER });
           let stocks = [...(userData.savedStocks ?? []), stockToSave]
           cache.writeQuery({
@@ -108,7 +113,7 @@ const SearchStocks = () => {
           })
         }
       });
-      
+
     } catch (err) {
       console.error(err);
     }
@@ -116,9 +121,14 @@ const SearchStocks = () => {
 
   return (
     <>
-      <Jumbotron fluid className='text-light bg-dark'>
+      <Jumbotron fluid className='text-secondary bg-primary'>
         <Container>
-          <h1>Search for stocks!</h1>
+          <h1 className='text-dark'>
+            {loading
+              ? 'Loading'
+              : 'Search for stocks!'
+            }
+          </h1>
           <Form onSubmit={handleFormSubmit}>
             <Form.Row>
               <Col xs={12} md={8}>
@@ -132,7 +142,7 @@ const SearchStocks = () => {
                 />
               </Col>
               <Col xs={12} md={4}>
-                <Button type='submit' variant='success' size='lg'>
+                <Button type='submit' variant='secondary' size='lg'>
                   Submit Search
                 </Button>
               </Col>

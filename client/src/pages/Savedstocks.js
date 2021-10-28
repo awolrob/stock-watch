@@ -61,7 +61,7 @@ const SavedStocks = () => {
     <>
       <Jumbotron fluid className='text-light bg-dark'>
         <Container>
-          <h1>Your Watch List</h1>
+          <h1 className="text-white">Your Watch List</h1>
         </Container>
       </Jumbotron>
       <Container>
@@ -111,3 +111,19 @@ const SavedStocks = () => {
 };
 
 export default SavedStocks;
+
+
+// const history = useHistory();
+
+// const searchClick = () => {
+//   history.push('./')
+// }
+// const saveClick = () => {
+//   history.push('./saved')
+// }
+// const cashClick = () => {
+//   history.push('./stripe')
+// }
+// const signClick = () => {
+//   history.push('./signup')
+// }

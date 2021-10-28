@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-
-import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
-// import { createUser } from '../utils/API';
-import { Form, Button, Alert } from 'react-bootstrap';
 // import { Form, Input, Button } from 'antd';
 // import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 
 
 const SignupForm = () => {
-  // set initial form state
+
+    // set initial form state
   const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
   // set state for form validation
   const [validated] = useState(false);
@@ -27,6 +24,7 @@ const SignupForm = () => {
   };
 
   const handleFormSubmit = async (event) => {
+    
     event.preventDefault();
 
     // check if form has everything (as per react-bootstrap docs)
@@ -41,7 +39,6 @@ const SignupForm = () => {
         variables: { ...userFormData }
       });
       
-      console.log(data);
       Auth.login(data.addUser.token);
     } catch (err) {
       console.error(err);
@@ -59,13 +56,30 @@ const SignupForm = () => {
   return (
     <>
       {/* This is needed for the validation functionality above */}
-      <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
+      <Form 
+      noValidate validated={validated} 
+      onSubmit={handleFormSubmit}
+      name="basic"
+      labelCol={{ span: 8, }}
+      wrapperCol= {{ span:16, }}
+      >
         {/* show alert if server response is bad */}
         <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
           Something went wrong with your signup!
         </Alert>
 
-        <Form.Group>
+        <Form.Group
+          label="Username" 
+          name="user"
+          onValuesChange={handleInputChange}
+          value={userFormData.username}
+          rules= {[
+            {
+              required: true,
+              message: 'Username is required!'
+            }
+          ]}
+          >
           <Form.Label htmlFor='username'>Username</Form.Label>
           <Form.Control
             type='text'
@@ -75,6 +89,7 @@ const SignupForm = () => {
             value={userFormData.username}
             required
           />
+
           <Form.Control.Feedback type='invalid'>Username is required!</Form.Control.Feedback>
         </Form.Group>
 
@@ -105,8 +120,11 @@ const SignupForm = () => {
         </Form.Group>
         <Button
           disabled={!(userFormData.username && userFormData.email && userFormData.password)}
+          // disabled={!(userFormData.username)}
           type='submit'
-          variant='success'>
+          variant='success'
+          htmlType="submit"
+          >
           Submit
         </Button>
       </Form>

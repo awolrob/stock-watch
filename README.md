@@ -1,6 +1,7 @@
 # Project 3: Stock Watch List - Phase 1
 
-Deployed: https://cryptic-retreat-93584.herokuapp.com/
+* Deployed: https://www.stockwatch.life/
+* Github: https://github.com/awolrob/stock-watch
 
 ## Phase 1 - Make it work!
 
@@ -240,7 +241,7 @@ You are required to submit BOTH of the following for review:
 * The URL of the GitHub repository. Give the repository a unique name and include a README describing the project.
 
 - - -
-© 2021 Eddie, Max, Patrick, Rob
+© 2021 Eddie, Mason, Max, Patrick, Rob, Seth
 
 ## Phase 2 - Make it SOCIAL!
 

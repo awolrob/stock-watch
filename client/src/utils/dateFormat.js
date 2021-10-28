@@ -69,29 +69,6 @@ module.exports = (
 
   const year = dateObj.getFullYear();
 
-  let _hour;
-  // check for 24-hr time
-  if (dateObj.getHours > 12) {
-    _hour = Math.floor(dateObj.getHours() / 2);
-  } else {
-    _hour = dateObj.getHours();
-  }
-  // if hour is 0 (12:00am), change it to 12
-  if (_hour === 0) {
-    _hour = 12;
-  }
-
-  const _minutes = dateObj.getMinutes();
-
-  // set `am` or `pm`
-  let _periodOfDay;
-
-  if (dateObj.getHours() >= 12) {
-    _periodOfDay = 'pm';
-  } else {
-    _periodOfDay = 'am';
-  }
-
   const formattedTimeStamp = `${formattedMonth} ${dayOfMonth}, ${year}`;
 
   return formattedTimeStamp;
