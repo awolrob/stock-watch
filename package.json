@@ -1,11 +1,15 @@
 {
-  "name": "Stock_Watch",
+
+  "name": "stock_watch",
   "version": "1.0.0",
   "description": "## Phase 1 - Make it work!",
   "main": "server/server.js",
   "dependencies": {
     "apollo-server-express": "^3.4.0",
-    "graphql": "^15.6.1"
+    "graphql": "^15.6.1",
+    "dotenv": "^10.0.0",
+    "react-scripts": "^4.0.3"
+
   },
   "devDependencies": {
     "concurrently": "^6.3.0"
