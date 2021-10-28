@@ -16,21 +16,10 @@ import { Menu } from 'antd';
 import AppNavbar from "./Navbar";
 
 
-const RenderPage = () => {
+const RenderPage = ({setActivePage}) => {
 
-  const [activePage, setActivePage] = useState("Searchstocks");
 
-  function RenderPage() {
-    if (activePage == "Searchstocks") {
-      return <Searchstocks />;
-    } else if (activePage == "SignupForm") {
-      return <SignUpForm />;
-    } else if (activePage == "LoginForm") {
-      return <LoginForm />;
-    } else if (activePage == "Savedstocks") {
-      return <Savedstocks />;
-    }
-  }
+
     return (
       Auth.loggedIn() ? (
         <>

@@ -136,7 +136,7 @@ function App() {
         
       >
         <Header className="site-layout-background ant-col" style={{ padding: 0, textAlign: "center" }}>
-          <PageHeader/>
+          <PageHeader setActivePage={setActivePage} />
 
         </Header>
         <Content className="ant-col" style={{ padding: 10, margin: "24px 16px 0", overflow: "initial" }}>
