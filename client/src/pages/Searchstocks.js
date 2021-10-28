@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, ListGroup } from 'react-bootstrap';
-
+import { useQuery, useMutation } from '@apollo/client';
+import { searchStocksAPI, queryTickerCoData, queryTickerClose } from '../utils/API';
 import Auth from '../utils/auth';
-import { savestock, searchStocksAPI, queryTickerCoData } from '../utils/API';
-import { savestockIds, getSavedstockIds } from '../utils/localStorage';
+import { saveStockIds, getSavedStockIds } from '../utils/localStorage';
+import { SAVE_STOCK } from '../utils/mutations';
+import { QUERY_USER } from '../utils/queries';
 
-const Searchstocks = () => {
+const SearchStocks = () => {
+  const { _loading, data } = useQuery(QUERY_USER, { fetchPolicy: "network-only" });
+  let userData = data?.user || {};
   // create state for holding returned google api data
-  const [searchedstocks, setSearchedstocks] = useState([]);
+  const [searchedStocks, setSearchedStocks] = useState([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
-
   // create state to hold saved stockId values
-  const [savedstockIds, setSavedstockIds] = useState(getSavedstockIds());
-
-  // set up useEffect hook to save `savedstockIds` list to localStorage on component unmount
+  const [savedStockIds, setSavedStockIds] = useState(getSavedStockIds());
+  const [saveStock] = useMutation(SAVE_STOCK);
+  // set up useEffect hook to save `savedStockIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
   useEffect(() => {
-    return () => savestockIds(savedstockIds);
+    return () => saveStockIds(savedStockIds);
   });
 
   // create method to search for stocks and set state on form submit
@@ -32,17 +35,18 @@ const Searchstocks = () => {
       const response = await searchStocksAPI(searchInput);
 
       if (!response.ok) {
-        throw new Error('something went wrong!');
+        throw new Error('Error!');
       }
+
       const { bestMatches } = await response.json();
       const stockData = bestMatches.map((stock) => ({
         stockId: stock['1. symbol'],
         type: stock['3. type'] || ['No type to display'],
         coName: stock['2. name'],
-        description: stock['9. matchScore'],
         startWatchDt: '',
       }));
-      setSearchedstocks(stockData);
+
+      setSearchedStocks(stockData);
       setSearchInput('');
     } catch (err) {
       console.error(err);
@@ -50,45 +54,64 @@ const Searchstocks = () => {
   };
 
   // create function to handle saving a stock to our database
-  const handleSavestock = async (stockId) => {
-    // find the stock in `searchedstocks` state by the matching id
-    const stockToSave = searchedstocks.find((stock) => stock.stockId === stockId);
+  const handleSaveStock = async (stockId) => {
+    // find the stock in `searchedStocks` state by the matching id
+    const stockToSave = searchedStocks.find((stock) => stock.stockId === stockId);
+    setSavedStockIds([...savedStockIds, stockToSave.stockId]);
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-
     if (!token) {
       return false;
     }
+    const closeDataResponse = await queryTickerClose(stockId);
+    const coResponse = await queryTickerCoData(stockId);
+    const d = new Date();
+    stockToSave.startWatchDt = d.toLocaleDateString(d.setDate(d.getDate() - 21));
 
     try {
-      //save date stock watch started
-      stockToSave.startWatchDt = Date()
-      //get additional data to save to stock model
-      //1 - closing history from alph advantage
-      //2 - company data, link, etc.
-      //3 - company logo maybe from api.polygon.io
-      const coResponse = await queryTickerCoData(stockId);
-      if (!coResponse.ok) {
-        throw new Error('No company data available for this ticker: ', stockId);
-      } else {
-        const coData = await coResponse.json();
-        stockToSave.url = coData.url
+      if (closeDataResponse.ok) {
+        const closeDataJSON = await closeDataResponse.json();
+
+        const dates = Object.keys(closeDataJSON['Time Series (Daily)']).reverse();
+
+        // Construct data for chart input
+        const closePrices = dates.map(date => date = {
+          date,
+          close: Number(closeDataJSON['Time Series (Daily)'][date]['4. close'])
+        })
+        stockToSave.closePrices = closePrices;
       }
-      console.log(coResponse)
+      if (coResponse.ok) {
+        const coData = await coResponse.json();
+        stockToSave.url = coData.url;
+        stockToSave.logo = coData.logo;
+        stockToSave.description = coData.description;
+        stockToSave.hq_address = coData.hq_address;
+        stockToSave.hq_state = coData.hq_state;
+        stockToSave.hq_country = coData.hq_country;
+      }
     } catch (err) {
       console.error(err);
     }
 
-    const response = await savestock(stockToSave, token);
+    try {
+      await saveStock({
+        variables: { stock: stockToSave },
+        update: cache => {
 
-    if (!response.ok) {
-      throw new Error('something went wrong!');
+          // const { user } = cache.readQuery({ query: QUERY_USER });
+          let stocks = [...(userData.savedStocks ?? []), stockToSave]
+          cache.writeQuery({
+            query: QUERY_USER, data:
+              { user: { ...userData }, savedStocks: [...stocks] }
+          })
+        }
+      });
+      
+    } catch (err) {
+      console.error(err);
     }
-
-    // if stock successfully saves to user's account, save stock id to state
-    setSavedstockIds([...savedstockIds, stockToSave.stockId]);
-
   };
 
   return (
@@ -120,29 +143,33 @@ const Searchstocks = () => {
 
       <Container>
         <h2>
-          {searchedstocks.length
-            ? `Viewing ${searchedstocks.length} results:`
+          {searchedStocks.length
+            ? `Viewing ${searchedStocks.length} results:`
             : 'Search for a stock to begin'}
         </h2>
         <ListGroup defaultActiveKey="#link1">
-          {searchedstocks.map((stock) => {
+          {searchedStocks.map((stock) => {
             return (
               <ListGroup.Item key={stock.stockId}>
                 Ticker: {stock.stockId} <br />
                 Name: {stock.coName}<br />
-                Match Score: {stock.description}<br />
                 Type: {stock.type}<br />
                 {Auth.loggedIn() && (
-                  <Button variant="primary" size="sm"
-                    disabled={savedstockIds?.some((savedstockId) => savedstockId === stock.stockId)}
-                    // className='btn-block btn-info'
-                    onClick={() => handleSavestock(stock.stockId)}>
-                    {savedstockIds?.some((savedstockId) => savedstockId === stock.stockId)
+                  // <Button variant="primary" size="sm"
+                  <Button
+                    variant="primary" size="sm"
+                    // onClick={() => {
+                    // this.setDisable(true)
+                    // handleSavestock(stock.stockId)
+                    // }}
+                    disabled={savedStockIds?.some((savedstockId) => savedstockId === stock.stockId)}
+                    onClick={() => handleSaveStock(stock.stockId)}
+                  >
+                    {savedStockIds?.some((savedStockId) => savedStockId === stock.stockId)
                       ? 'You are Watching This Stock!'
                       : 'Add Stock To Watch List!'}
                   </Button>
                 )}
-
               </ListGroup.Item>
             )
           })}
@@ -152,4 +179,4 @@ const Searchstocks = () => {
   );
 };
 
-export default Searchstocks;
+export default SearchStocks;

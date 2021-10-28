@@ -1,24 +1,33 @@
 {
-  "name": "Develop",
+  "name": "stock_watch",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "## Phase 1 - Make it work!",
+  "main": "server/server.js",
   "dependencies": {
-    "antd": "^4.16.13"
+    "apollo-server-express": "^3.4.0",
+    "graphql": "^15.6.1"
   },
   "devDependencies": {
-    "concurrently": "^6.3.0",
-    "if-env": "^1.0.4"
+    "concurrently": "^6.3.0"
   },
   "scripts": {
-    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start": "node server/server.js",
     "start:prod": "cd server && npm start",
     "start:dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
+    "debug": "node ./node_modules/.bin/ts-node -- ./server.ts",
     "install": "cd server && npm i && cd ../client && npm i",
     "seed": "cd server && npm run seed",
     "build": "cd client && npm run build"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Stock-Watch Team",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awolrob/stock-watch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/awolrob/stock-watch/issues"
+  },
+  "homepage": "https://github.com/awolrob/stock-watch#readme"
 }

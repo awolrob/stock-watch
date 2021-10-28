@@ -21,8 +21,8 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    // set savedstocks to be an array of data that adheres to the stockSchema
-    savedstocks: [stockSchema],
+    // set savedStocks to be an array of data that adheres to the stockSchema
+    savedStocks: [stockSchema],
   },
   // set this to use virtual below
   {
@@ -49,7 +49,7 @@ userSchema.methods.isCorrectPassword = async function (password) {
 
 // when we query a user, we'll also get another field called `stockCount` with the number of saved stocks we have
 userSchema.virtual('stockCount').get(function () {
-  return this.savedstocks.length;
+  return this.savedStocks.length;
 });
 
 const User = model('User', userSchema);

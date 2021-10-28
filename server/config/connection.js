@@ -7,12 +7,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/stockwatch', {
   // useFindAndModify: false,
 });
 
-async function run() {
-  await mongoose.connection.dropDatabase();
-}
-run()
 
-// Use this to log mongo queries being executed!
-mongoose.set('debug', true);
+// mongoose.set('debug', true); 
 
 module.exports = mongoose.connection;
