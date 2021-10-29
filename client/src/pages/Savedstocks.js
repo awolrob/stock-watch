@@ -59,7 +59,7 @@ const SavedStocks = () => {
   return (
 
     <>
-      <Jumbotron fluid className='text-light bg-dark'>
+      <Jumbotron fluid className='text-secondary bg-primary'>
         <Container>
           <h1 className="text-white">Your Watch List</h1>
         </Container>
