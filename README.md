@@ -1,4 +1,4 @@
-# stock-watch
+# Stock Watch Life
 ![Badge for GitHub](https://img.shields.io/github/languages/top/awolrob/stock-watch?style=flat&logo=appveyor) 
 
 - Deployed: https://www.stockwatch.life/
