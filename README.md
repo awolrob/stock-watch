@@ -1,32 +1,64 @@
-# Project 3: Stock Watch List - Phase 1
+# stock-watch
+![Badge for GitHub](https://img.shields.io/github/languages/top/awolrob/stock-watch?style=flat&logo=appveyor) 
+  
+  
+## Description 
+  
+Stock Watch is a convenient app for the potential investor on the go.  After initial sign up and log in, the user navigates to the search bar and enters either the company name, or stock symbol to find and save that stock to their watchlist.  The user can view current performance and closing prices, as well as performance over the span of the watch.  Stock data will be accompanied by app logo, corporate headquarter location, and ticker symbol
 
-* Deployed: https://www.stockwatch.life/
-* Github: https://github.com/awolrob/stock-watch
+## Table of Contents
+* [Installation](#installation)
+* [Usage](#usage)
+* [Contributing](#contributing)
+* [License](#license)
+* [Concepts](#concepts)
+* [Planning](#planning)
 
-## Phase 1 - Make it work!
+  
+## Installation
+  
+To run locally
 
-1. Set up an Apollo Server to use GraphQL queries and mutations to fetch and modify data.
+* Clone repository
+* `Run npm install`
+* `npm run start:dev`
 
-2. Install an authentication middleware so that it works in the context of a GraphQL API and persists throughout the user's on-line experience.
+## Usage 
 
-3. Use Apollo Client to create an Apollo Provider so that requests can communicate with an Apollo Server.
+Below is a demonstration of the app functionality
 
-4. Deploy the application to Heroku using a MongoDB database hosted at MongoDB Atlas.
+![working-project](link to gif here)
 
-5. Create a working API which will pull the previous day's closing prices for every stock in every user's watch list in the system ( server side 8AM automated routine? )
-   `https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers?apiKey=*` tickers? = A comma separated list of tickers to get snapshots for.
- 
-6. Allow users to sign up and create a stock watch list
+![image](https://raw.githubusercontent.com/awolrob/stock-watch/main/Assets/images/homepage-capture.PNG)
 
-## User Story
+![image](https://raw.githubusercontent.com/awolrob/stock-watch/main/Assets/images/login-capture.PNG)
 
-```md
-AS someone looking to invest for retirement with an interest in purchasing stock directly
-I WANT to search for stocks and place them in a watch list recording the date added and previous day's closing price
-SO THAT I can keep a list of stocks I'm interested in purchasing and view how that stock's value has changed since it was added to my watch list.
-```
+![image](https://raw.githubusercontent.com/awolrob/stock-watch/main/Assets/images/search-capture.PNG)
 
-## Phase 1 Appllication Functions:
+![image](https://raw.githubusercontent.com/awolrob/stock-watch/main/Assets/images/saved-to-watchlist-capture.PNG)
+
+![image](https://raw.githubusercontent.com/awolrob/stock-watch/main/Assets/images/watch-list-display-capture.PNG)
+
+![image](https://raw.githubusercontent.com/awolrob/stock-watch/main/Assets/images/filled-out-watchlist-capture.PNG)
+
+![image](https://raw.githubusercontent.com/awolrob/stock-watch/main/Assets/images/price-point-capture.PNG)
+
+
+
+
+
+
+## License
+  
+mit
+
+
+## concepts
+Original framing idea
+
+![sample single page app layout for logged on user.](./Assets/sample-screen.jpg)
+
+Functions of Project
 
 ```md
 GIVEN an API stock searh search engine
@@ -97,15 +129,30 @@ THEN each stock in my watch list is displayed as a card containing:
 * Date Added to my watch list, 
 * Value of the Stock on the date added to my watch list and a, 
 * graph of the stock's daily closing value up to the previous day's closing value
-```
-## Mock-Up
 
-![sample single page app layout for logged on user.](./Assets/sample-screen.jpg)
+## Planning
 
+- Apollo Server
 
-## Application Technical Layout
+    1. Set up an Apollo Server to use GraphQL queries and mutations to fetch and modify data.
 
-Keep it simple!
+    2. Install an authentication middleware so that it works in the context of a GraphQL API and persists throughout the 
+       user's on-line experience.
+
+    3. Use Apollo Client to create an Apollo Provider so that requests can communicate with an Apollo Server.
+
+    4. Deploy the application to Heroku using a MongoDB database hosted at MongoDB Atlas.
+
+    5. Create a working API which will pull the previous day's closing prices for every stock in every user's watch list in the
+       system ( server side 8AM automated routine? ) https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers?apiKey=* tickers? = A comma separated list of tickers to get snapshots for.
+
+    6. Allow users to sign up and create a stock watch list
+
+-  Technical Layout
+
+    Application Technical Layout
+
+    Keep it simple!
 
 ### Back-End Specifications
 
@@ -212,9 +259,6 @@ You’ll need to complete the following tasks in each of these back-end files:
 ### Front-End Specifications
 
 We will need to create the following front-end files :
-```md
-Eddie is working on this part
-```
 
 
 * `queries.js`: This will hold the queries.
@@ -232,22 +276,17 @@ Eddie is working on this part
 * `server side scheduled
 	* `REMOVE_TICKER` will execute the `` mutation. (remove a ticker to a user's watchList)
 
-## Review
+  
+  ---
+  
+## Questions?
+  
+For any questions, please contact me with the information below:
+ 
+GitHub:
 
-You are required to submit BOTH of the following for review:
-
-* The URL of the functional, deployed application on Heroku.
-
-* The URL of the GitHub repository. Give the repository a unique name and include a README describing the project.
-
-- - -
-© 2021 Eddie, Mason, Max, Patrick, Rob, Seth
-
-## Phase 2 - Make it SOCIAL!
-
-add the USER (user profile page)
-add the reactions to people's watchlist (after the stock cards) and stock picks (in each card below the shart)
-
-add a link on the stock card to the customer's web site
-
-add a link on the card to an AI that predicts this stock's future value https://www.alphavantage.co/academy/#predict-future-price (okay it is in python, so we will keep looking)
+[@awolrob](https://api.github.com/users/awolrob)
+[@fausnightm](https://github.com/fausnightm)
+[@ehajek](https://github.com/ehajek)
+[@GinleyP87](https://github.com/GinleyP87)
+[@Mason021](https://github.com/Mason021)
