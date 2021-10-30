@@ -14,6 +14,7 @@ Stock Watch is a convenient app for the potential investor on the go.  After ini
 * [License](#license)
 * [Concepts](#concepts)
 * [Planning](#planning)
+* [Contributors](#questions)
 
   
 ## Installation
