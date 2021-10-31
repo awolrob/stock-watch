@@ -148,7 +148,6 @@ THEN each stock in my watch list is displayed as a card containing:
 
     6. Allow users to sign up and create a stock watch list
 
--  Technical Layout
 
 
 ### Back-End Specifications
