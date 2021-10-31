@@ -1,6 +1,5 @@
 # Stock-Watch
-![Badge for GitHub](https://img.shields.io/github/languages/top/awolrob/stock-watch?style=flat&logo=appveyor)
-![License Badge](https://img.shields.io/github/license/:awolrob/:stock-watch) 
+![Badge for GitHub](https://img.shields.io/github/languages/top/awolrob/stock-watch?style=flat&logo=appveyor) 
   
   
 ## Description 
