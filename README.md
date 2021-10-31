@@ -3,6 +3,9 @@
   
   
 ## Description 
+
+Deployed: https://www.stockwatch.life/
+Github Repo: https://github.com/awolrob/stock-watchs
   
 Stock Watch is a convenient app for the potential investor on the go.  After initial sign up and log in, the user navigates to the search bar and enters either the company name, or stock symbol to find and save that stock to their watchlist.  The user can view current performance and closing prices, as well as performance over the span of the watch.  Stock data will be accompanied by app logo, corporate headquarter location, and ticker symbol
 
