@@ -1,5 +1,6 @@
-# stock-watch
-![Badge for GitHub](https://img.shields.io/github/languages/top/awolrob/stock-watch?style=flat&logo=appveyor) 
+# Stock-Watch
+![Badge for GitHub](https://img.shields.io/github/languages/top/awolrob/stock-watch?style=flat&logo=appveyor)
+![License Badge](https://img.shields.io/github/license/:awolrob/:stock-watch) 
   
   
 ## Description 
@@ -9,7 +10,6 @@ Stock Watch is a convenient app for the potential investor on the go.  After ini
 ## Table of Contents
 * [Installation](#installation)
 * [Usage](#usage)
-* [Contributing](#contributing)
 * [License](#license)
 * [Concepts](#concepts)
 * [Planning](#planning)
@@ -50,15 +50,15 @@ Below is a demonstration of the app functionality
 
 ## License
   
-mit
+This project is licensed under the MIT.
 
 
-## concepts
+## Concepts
 Original framing idea
 
 ![sample single page app layout for logged on user.](./Assets/sample-screen.jpg)
 
-Functions of Project
+### Functions of Project
 
 ```md
 GIVEN an API stock searh search engine
@@ -119,7 +119,7 @@ WHEN I click on the Logout button
 THEN I am logged out of the site and presented with a menu with the option to Login/Signup
 ```
 
-### watch list card display and function
+### Watch list card display and function
 ```md
 WHEN I am logged in to the site
 THEN each stock in my watch list is displayed as a card containing:
@@ -129,6 +129,7 @@ THEN each stock in my watch list is displayed as a card containing:
 * Date Added to my watch list, 
 * Value of the Stock on the date added to my watch list and a, 
 * graph of the stock's daily closing value up to the previous day's closing value
+```
 
 ## Planning
 
@@ -150,9 +151,6 @@ THEN each stock in my watch list is displayed as a card containing:
 
 -  Technical Layout
 
-    Application Technical Layout
-
-    Keep it simple!
 
 ### Back-End Specifications
 
@@ -281,7 +279,7 @@ We will need to create the following front-end files :
   
 ## Questions?
   
-For any questions, please contact me with the information below:
+For any questions, please contact us with the information below:
  
 GitHub:
 
