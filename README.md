@@ -26,7 +26,7 @@ To run locally
 
 Below is a demonstration of the app functionality
 
-![working-project](link to gif here)
+![working-project](https://raw.githubusercontent.com/awolrob/stock-watch/main/Assets/images/app-in-use-gif.gif)
 
 ![image](https://raw.githubusercontent.com/awolrob/stock-watch/main/Assets/images/homepage-capture.PNG)
 
