@@ -58,11 +58,11 @@ db.once('open', () => {
 });
 
 //Create Job to update previous day's stocks close
-console.log('Before job instantiation');
+console.log('Before CronJob instantiation');
 const job = new CronJob('0 */1 9-23 * * *', async function() {
 	const d = new Date();
   const data = queryTickerClose();
 	console.log('Every 30 minutes between 9-17:', d);
 });
-console.log('After job instantiation');
+console.log('After CronJob instantiation');
 job.start();
