@@ -1,8 +1,15 @@
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
 const path = require('path');
 const express = require('express');
 // import ApolloServer
 const { ApolloServer } = require('apollo-server-express');
 const { authMiddleware } = require('./utils/auth');
+import { queryTickerClose } from './utils/api.mjs'
+
+//Create Job to update previous day's stocks close
+var CronJob = require('cron').CronJob;
 
 // import our typeDefs and resolvers
 const { typeDefs, resolvers } = require('./Schemas');
@@ -38,14 +45,24 @@ app.use(express.json());
 // Serve up static assets
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
-}
 
-app.get('*', (_req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
+  app.get('*', (_req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
+  });}
+
 
 db.once('open', () => {
   app.listen(PORT, () => {
     console.log(`API server running on port ${PORT}!`);
   });
 });
+
+//Create Job to update previous day's stocks close
+console.log('Before job instantiation');
+const job = new CronJob('0 */1 9-23 * * *', async function() {
+	const d = new Date();
+  const data = queryTickerClose();
+	console.log('Every 30 minutes between 9-17:', d);
+});
+console.log('After job instantiation');
+job.start();
