@@ -9,6 +9,7 @@ let request = require('request');
 const getTickerClose = async (ticker) => {
 
   let closePrices = [];
+
   let url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${ticker}&apikey=${apiKey}`;
   // console.log(url)
   request.get(
@@ -33,21 +34,21 @@ const getTickerClose = async (ticker) => {
         })
 
         // stockToSave.closePrices = closePrices;
-        console.log("          ", ticker, closePrices[0])
+        console.log("          ", ticker, closePrices[closePrices.length-1])
+        //Update Apollo data with stock close data
       }
     }
-  )
+  );
   return closePrices;
 };
 
 export const queryTickerClose = async () => {
   const userData = await User.find();
-  // console.log(userData[6].savedStocks[0].closePrices);
   for (let i = 0; i < userData.length; i++) {
     console.log(userData[i].username, userData[i].email);
     for (let x = 0; x < userData[i].savedStocks.length; x++) {
       console.log("   ", userData[i].savedStocks[x].stockId);
-      let symbolID = userData[i].savedStocks[x].stockId || "";
+      let symbolID = userData[i].savedStocks[x].stockId;
       getTickerClose(symbolID);
     }
   };

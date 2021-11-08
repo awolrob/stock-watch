@@ -20,10 +20,10 @@ const app = express();
 
 const startServer = async () => {
   // create a new Apollo server and pass in our schema data
-  const server = new ApolloServer({ 
-    typeDefs, 
-    resolvers, 
-    context: authMiddleware 
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: authMiddleware
   });
 
   // Start the Apollo server
@@ -48,7 +48,8 @@ if (process.env.NODE_ENV === 'production') {
 
   app.get('*', (_req, res) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'));
-  });}
+  });
+}
 
 
 db.once('open', () => {
@@ -59,10 +60,13 @@ db.once('open', () => {
 
 //Create Job to update previous day's stocks close
 console.log('Before CronJob instantiation');
-const job = new CronJob('0 */1 9-23 * * *', async function() {
-	const d = new Date();
+const job = new CronJob('0 */1 0-23 * * 0-6', async function () {
+//const job = new CronJob('0 */59 0-17 * * 1-5', async function () {
+//check refresh date on stock prices every 59 min from midnight to 5PM mon-fri   
+  const d = new Date();
   const data = queryTickerClose();
-	console.log('Every 30 minutes between 9-17:', d);
-});
-console.log('After CronJob instantiation');
-job.start();
+  console.log('Every 59 minutes between 0-17:', d);
+},
+  null,
+  true,
+  'America/New_York');
