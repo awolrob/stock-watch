@@ -34,7 +34,7 @@ const getTickerClose = async (ticker) => {
         })
 
         // stockToSave.closePrices = closePrices;
-        console.log("          ", ticker, closePrices[closePrices.length-1])
+        console.log("          ", ticker, closePrices[closePrices.length - 1])
         //Update Apollo data with stock close data
       }
     }
