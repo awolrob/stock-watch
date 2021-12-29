@@ -12,33 +12,40 @@ const getTickerClose = async (ticker) => {
 
   let url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${ticker}&apikey=${apiKey}`;
   // console.log(url)
-  request.get(
-    {
-      url: url,
-      json: true,
-      headers: { 'User-Agent': 'request' }
-    }, (err, res, closeDataResponse) => {
-      if (err) {
-        console.log('Error:', err);
-      } else if (res.statusCode !== 200) {
-        console.log('Status:', res.statusCode);
-      } else {
-        // data is successfully parsed as a JSON object:
-        // console.log("          ", ticker, closeDataResponse);
+  const callAPI = async () => {
+    request.get(
+      {
+        url: url,
+        json: true,
+        headers: { 'User-Agent': 'request' }
+      }, (err, res, closeDataResponse) => {
+        if (err) {
+          console.log('Error:', err);
+        } else if (res.statusCode !== 200) {
+          console.log('Status:', res.statusCode);
+        } else {
+          // data is successfully parsed as a JSON object:
+          // console.log("          ", ticker, closeDataResponse);
+          try {
+            const dates = Object.keys(closeDataResponse['Time Series (Daily)']).reverse();
+            // console.log(dates);
+            closePrices = dates.map(date => date = {
+              date,
+              close: Number(closeDataResponse['Time Series (Daily)'][date]['4. close'])
+            })
 
-        const dates = Object.keys(closeDataResponse['Time Series (Daily)']).reverse();
-        // console.log(dates);
-        closePrices = dates.map(date => date = {
-          date,
-          close: Number(closeDataResponse['Time Series (Daily)'][date]['4. close'])
-        })
-
-        // stockToSave.closePrices = closePrices;
-        console.log("          ", ticker, closePrices[closePrices.length - 1])
-        //Update Apollo data with stock close data
+            // stockToSave.closePrices = closePrices;
+            console.log("          ", ticker, closePrices[closePrices.length - 1])
+            //Update Apollo data with stock close data
+          }
+          catch {
+            console.log('body: ',closeDataResponse);
+          }
+        }
       }
-    }
-  );
+    )
+  };
+  await callAPI();
   return closePrices;
 };
 
